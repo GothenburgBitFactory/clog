@@ -14,13 +14,76 @@ The patterns are defined in ~/.clogrc as regular expressions, and the actions
 are specified, to colorize the line, the matching pattern, perhaps to suppress
 the line, or prepend a timestamp.
 
-[TODO discuss arguments, sections]
+One or more section arguments may be specified.  If none are provided, 'default'
+is assumed.  A section corresponds to a rule set defined in ~/.clogrc. and
+allows the use of one .clogrc file to serve multiple different uses of clog.
+If more than one section is specified, the rules sets are combined, in the
+sequence found.
 
 .SH CONFIGURATION FILE AND OVERRIDE OPTIONS
 Clog reads its configutation from a file in the user's home directory:
 ~/.clogrc.
 
-[TODO discuss format of rules]
+The format of the rules is:
+
+.RS
+<section> rule /<pattern>/ --> <color> <action>
+.RE
+
+The section is simply a way to allow multiple rules sets, so that one .clogrc
+file can serve multiple uses.  The pattern is any supported Standard C Library
+regular expression.  Action must be one of 'line', 'match' or 'suppress'.
+
+Note that there is a default section, called 'default'.  Putting rules in the
+default section means that no section need be specified on the command line.
+
+Any color can be used, in both the 16- and 256-color space.  Some examples are:
+
+.RS
+bold
+.br
+underline
+.br
+bold blue
+.br
+underline on green
+.br
+black on white
+.br
+bold red on bright white
+.br
+rgb200 on grey4
+.RE
+
+Instead of coloring the whole line, specifying 'match' instead will only color
+the parts of the line that match.
+
+.SH EXAMPLE Rulesets
+Here is an example ~/.clogrc file.
+
+.RS
+# Standard syslog entries.
+.br
+default rule /warn|debug/   --> yellow line
+.br
+default rule /error|severe/ --> red line
+.br
+default rule /critical/     --> bold red line
+.br
+default rule /ignore/       --> suppress
+.br
+
+.br
+# Apache access.log status codes
+.br
+apache rule / 2[0-9][0-9] / --> green match
+.br
+apache rule / 3[0-9][0-9] / --> yellow match
+.br
+apache rule / 4[0-9][0-9] / --> red match
+.br
+apache rule / 5[0-9][0-9] / --> bold red match
+.RE
 
 .SH "CREDITS & COPYRIGHTS"
 Taskwarrior was written by P. Beckingham <paul@yootabory.org> and

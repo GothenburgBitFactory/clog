@@ -1,4 +1,4 @@
-.TH clog 1 YYYY-MM-DD "clog 0.9.0" "User Manuals"
+.TH clog 1 YYYY-MM-DD "${PACKAGE_STRING}" "User Manuals"
 
 .SH NAME
 clog \- A colorizing log filter

@@ -26,12 +26,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <vector>
 #include <string>
 #include <string.h>
 #include <sys/types.h>
 #include <pwd.h>
+#include <time.h>
 
 #include <Rule.h>
 
@@ -58,8 +60,6 @@ void loadRules (std::vector <Rule>& rules)
     std::string line;
     while (getline (rc, line)) // Strips \n
     {
-      std::cout << "# " << line << '\n';
-
       // Remove comments.
       if ((comment = line.find ('#') != std::string::npos))
         line = line.substr (0, comment);
@@ -115,6 +115,8 @@ int main (int argc, char** argv)
   try
   {
     std::vector <std::string> sections;
+    bool prepend_date = false;
+    bool prepend_time = false;
 
     for (int i = 1; i < argc; ++i)
     {
@@ -122,7 +124,8 @@ int main (int argc, char** argv)
           !strcmp (argv[i], "--help"))
       {
         std::cout << "\n"
-                  << "Usage: clog [--help] [--version] [ <section> ... ]\n"
+                  << "Usage: clog [--help] [--version] [--date] [--time] "
+                  << "[ <section> ... ]\n"
                   << "\n";
         return status;
       }
@@ -143,6 +146,18 @@ int main (int argc, char** argv)
                      "or at http://yootabory.org\n"
                   << "\n";
         return status;
+      }
+
+      else if (!strcmp (argv[i], "-d") ||
+               !strcmp (argv[i], "--date"))
+      {
+        prepend_date = true;
+      }
+
+      else if (!strcmp (argv[i], "-t") ||
+               !strcmp (argv[i], "--time"))
+      {
+        prepend_time = true;
       }
 
       else
@@ -166,7 +181,30 @@ int main (int argc, char** argv)
     {
       applyRules (rules, sections, line);
       if (line.length ())
+      {
+        if (prepend_date || prepend_time)
+        {
+          time_t current;
+          time (&current);
+          struct tm* t = localtime (&current);
+
+          if (prepend_date)
+          {
+            std::cout << t->tm_year + 1900 << '-'
+                      << std::setw (2) << std::setfill ('0') << t->tm_mon + 1 << '-'
+                      << std::setw (2) << std::setfill ('0') << t->tm_mday    << ' ';
+          }
+
+          if (prepend_time)
+          {
+            std::cout << std::setw (2) << std::setfill ('0') << t->tm_hour << ':'
+                      << std::setw (2) << std::setfill ('0') << t->tm_min  << ':'
+                      << std::setw (2) << std::setfill ('0') << t->tm_sec  << ' ';
+          }
+        }
+
         std::cout << line << std::endl;
+      }
     }
   }
 

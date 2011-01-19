@@ -4,7 +4,7 @@
 clog \- A colorizing log filter
 
 .SH SYNOPSIS
-.B clog [--help] [--version] [ <section> ... ]
+.B clog [--help] [--version] [--date] [--time] [ <section> ... ]
 
 .SH DESCRIPTION
 Clog is a filter, which means it copies its input to its output.  But if the
@@ -13,6 +13,12 @@ lines of input match certain patterns, actions are taken.
 The patterns are defined in ~/.clogrc as regular expressions, and the actions
 are specified, to colorize the line, the matching pattern, perhaps to suppress
 the line, or prepend a timestamp.
+
+If --date is specified, the current date, in the form YYYY-MM-DD is prepended
+to all lines.
+
+If --time is specified, the current time, in the form HH:MM:SS is prepended to
+all lines.
 
 One or more section arguments may be specified.  If none are provided, 'default'
 is assumed.  A section corresponds to a rule set defined in ~/.clogrc. and

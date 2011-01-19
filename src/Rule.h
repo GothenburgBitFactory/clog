@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
-// taskwarrior - a command line task list manager.
+// clog - a colorized log filter
 //
-// Copyright 2006 - 2011, Paul Beckingham, Federico Hernandez.
+// Copyright 2006 - 2011, Göteborg Bit Factory.
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify it under
@@ -25,40 +25,30 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef INCLUDED_PATH
-#define INCLUDED_PATH
+#ifndef INCLUDED_RULE
+#define INCLUDED_RULE
 
-#include <vector>
 #include <string>
+#include <Color.h>
 
-class Path
+class Rule
 {
 public:
-  Path ();
-  Path (const Path&);
-  Path (const std::string&);
-  virtual ~Path ();
+  Rule (const std::string&);
+  Rule (const Rule&);
+  virtual ~Rule ();
 
-  Path& operator= (const Path&);
-  bool operator== (const Path&);
-  operator std::string () const;
+  Rule& operator= (const Rule&);
 
-  std::string name () const;
-  std::string parent () const;
-  std::string extension () const;
-  bool exists () const;
-  bool is_directory () const;
-  bool is_absolute () const;
-  bool readable () const;
-  bool writable () const;
-  bool executable () const;
-
-  // Statics
-  static std::string expand (const std::string&);
-  static std::vector<std::string> glob (const std::string&);
+  bool is_section (const std::string&) const;
+  bool is_match (const std::string&) const;
+  void apply (std::string&);
 
 public:
-  std::string data;
+  std::string section;
+  std::string pattern;
+  Color color;
+  std::string context;
 };
 
 #endif

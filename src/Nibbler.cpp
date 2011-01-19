@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // taskwarrior - a command line task list manager.
 //
-// Copyright 2006 - 2011, Paul Beckingham, Federico Hernandez.
+// Copyright 2006 - 2011, Göteborg Bit Factory.
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify it under
@@ -459,6 +459,13 @@ bool Nibbler::getRx (const std::string& regex, std::string& result)
   }
 
   return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void Nibbler::getRemainder (std::string& result)
+{
+  if (mCursor < mLength)
+    result = mInput.substr (mCursor);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

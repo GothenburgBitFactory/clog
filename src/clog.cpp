@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // clog - Colorized Log Filter
 //
-// Copyright 2011, Paul Beckingham, Federico Hernandez.
+// Copyright 2011, Göteborg Bit Factory.
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify it under
@@ -26,12 +26,89 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
 #include <string.h>
+#include <sys/types.h>
+#include <pwd.h>
 
-void loadConfig ();
-void applyRules (const std::vector <std::string>&, std::string&);
+#include <Rule.h>
+
+////////////////////////////////////////////////////////////////////////////////
+// - Locate $HOME
+// - Read $HOME/.clogrc
+// - Strip comments
+// - Parse rules
+void loadRules (std::vector <Rule>& rules)
+{
+  // Locate $HOME.
+  struct passwd* pw = getpwuid (getuid ());
+  if (!pw)
+    throw std::string ("Could not read home directory from the passwd file.");
+
+  std::string file = pw->pw_dir;
+  file += "/.clogrc";
+
+  // Read $HOME/.clogrc
+  std::ifstream rc (file.c_str ());
+  if (rc.good ())
+  {
+    std::string::size_type comment;
+    std::string line;
+    while (getline (rc, line)) // Strips \n
+    {
+      std::cout << "# " << line << '\n';
+
+      // Remove comments.
+      if ((comment = line.find ('#') != std::string::npos))
+        line = line.substr (0, comment);
+
+      // Process each non-trivial line as a rule.
+      if (line.length () > 1)
+      {
+        try
+        {
+          rules.push_back (Rule (line));
+        }
+        catch (int)
+        {
+        }
+      }
+    }
+
+    rc.close ();
+  }
+  else
+    std::cout << "Cannot open file.cpp" << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void applyRules (
+  std::vector <Rule>& rules,
+  std::vector <std::string>& sections,
+  std::string& line)
+{
+  std::vector <std::string>::const_iterator section;
+  for (section = sections.begin (); section != sections.end (); ++section)
+  {
+    std::vector <Rule>::iterator rule;
+    for (rule = rules.begin (); rule != rules.end (); ++rule)
+    {
+      if (rule->is_section (*section) &&
+          rule->is_match (line))
+      {
+        // Modify line accordingly.
+        rule->apply (line);
+
+/*
+        // Stop after first rule match.
+        return;
+*/
+      }
+    }
+  }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 int main (int argc, char** argv)
@@ -57,7 +134,7 @@ int main (int argc, char** argv)
                !strcmp (argv[i], "--version"))
       {
         std::cout << "\n"
-                  << "clog 1.0.0 build for xxxx\n"
+                  << "clog 0.9.0 build for xxxx\n"
                   << "\n"
                   << "Copyright (C) 2011 Göteborg Bit Factory\n"
                   << "\n"
@@ -72,7 +149,10 @@ int main (int argc, char** argv)
       }
 
       else
+      {
         sections.push_back (argv[i]);
+        std::cout << "# section '" << argv[i] << "'\n";
+      }
     }
 
     // Use a default section if one was not specified.
@@ -80,10 +160,18 @@ int main (int argc, char** argv)
       sections.push_back ("default");
 
     // Read ~/.clogrc
-    loadConfig ();
+    std::vector <Rule> rules;
+    loadRules (rules);
 
-    // TODO read/apply/write
- }
+    // Main loop: read line, apply rules, write line.
+    std::string line;
+    while (getline (std::cin, line)) // Strips \n
+    {
+      applyRules (rules, sections, line);
+      if (line.length ())
+        std::cout << line << std::endl;
+    }
+  }
 
   catch (std::string& error)
   {
@@ -98,27 +186,6 @@ int main (int argc, char** argv)
   }
 
   return status;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// <section> rule /<pattern>/ --> <color> <context>
-void loadConfig ()
-{
-  // TODO Read file line by line, removing comments.
-  // TODO Combine into a single string.
-  // TODO Nibble the string.
-}
-
-////////////////////////////////////////////////////////////////////////////////
-void applyRules (const std::vector <std::string>& sections, std::string& line)
-{
-  std::vector <std::string>::const_iterator i;
-  for (i = sections.begin (); i != sections.end (); ++i)
-  {
-    // TODO Foreach rule in section
-      // TODO if (rule matches)
-        // TODO colorize line
-  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,16 +1,14 @@
+cmake_minimum_required(VERSION 2.8)
 include_directories (${CMAKE_SOURCE_DIR}/src
                      ${CLOG_INCLUDE_DIRS})
 
-set (clog_SRCS Date.cpp Date.h
-               File.cpp File.h
-               Nibbler.cpp Nibbler.h
-               Path.cpp Path.h
-               rx.cpp rx.h
-               text.cpp text.h
-               util.cpp util.h
-               defs.h)
-
-add_executable(clog clog.cpp)
+add_executable(clog clog.cpp
+                    Nibbler.cpp Nibbler.h
+                    rx.cpp rx.h
+                    Rule.cpp Rule.h
+                    Color.cpp Color.h
+                    text.cpp text.h)
+#                    util.cpp util.h)
 
 install (TARGETS clog DESTINATION bin)
 

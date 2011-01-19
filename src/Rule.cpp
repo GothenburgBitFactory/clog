@@ -78,11 +78,13 @@ Rule::Rule (const std::string& value)
 
     color = Color (color_name);
 
+/*
     std::cout << "# section=" << section
               << " pattern=/" << pattern    << "/"
               << " color='"   << color_name << "'"
               << " context="  << context
               << "\n";
+*/
 
     return;
   }
@@ -145,8 +147,7 @@ void Rule::apply (std::string& value)
     value = color.colorize (value);
 
   else if (context == "match")
-    // TODO Colorize properly.
-    value = "[1m" + value + "[0m";
+    value = color.colorize (value);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

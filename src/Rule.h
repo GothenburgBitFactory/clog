@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - a colorized log filter
+// clog - a colorizing log filter
 //
 // Copyright 2006 - 2011, Göteborg Bit Factory.
 // All rights reserved.
@@ -37,12 +37,8 @@ public:
   Rule (const std::string&);
   Rule (const Rule&);
   virtual ~Rule ();
-
   Rule& operator= (const Rule&);
-
-  bool is_section (const std::string&) const;
-  bool is_match (const std::string&) const;
-  void apply (std::string&);
+  void apply (const std::string&, std::string&);
 
 public:
   std::string section;

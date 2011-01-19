@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - Colorized Log Filter
+// clog - a colorizing log filter
 //
 // Copyright 2011, Göteborg Bit Factory.
 // All rights reserved.
@@ -95,17 +95,14 @@ void applyRules (
     std::vector <Rule>::iterator rule;
     for (rule = rules.begin (); rule != rules.end (); ++rule)
     {
-      if (rule->is_section (*section) &&
-          rule->is_match (line))
-      {
-        // Modify line accordingly.
-        rule->apply (line);
+      // Modify line accordingly.
+      rule->apply (*section, line);
 
 /*
-        // Stop after first rule match.
-        return;
+      // Stop after first rule match.
+      // TODO Configurable?
+      return;
 */
-      }
     }
   }
 }

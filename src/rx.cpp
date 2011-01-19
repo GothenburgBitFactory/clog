@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// taskwarrior - a command line task list manager.
+// clog - a colorizing log filter
 //
 // Copyright 2010 - 2011, Göteborg Bit Factory.
 // All rights reserved.

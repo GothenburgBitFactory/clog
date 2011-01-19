@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - a colorized log filter
+// clog - a colorizing log filter
 //
 // Copyright 2006 - 2011, Göteborg Bit Factory.
 // All rights reserved.
@@ -86,6 +86,12 @@ Rule::Rule (const std::string& value)
               << "\n";
 */
 
+    // Now for "match" context patterns, add an enclosing ( ... ) is not already
+    // present.
+    if (context == "match")
+      if (pattern.find ('(') == std::string::npos)
+        pattern = "(" + pattern + ")";
+
     return;
   }
 
@@ -125,29 +131,35 @@ Rule& Rule::operator= (const Rule& other)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-bool Rule::is_section (const std::string& value) const
-{
-  return value == section;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-bool Rule::is_match (const std::string& value) const
+void Rule::apply (const std::string& section, std::string& line)
 {
   // TODO Support caseless regexes.
-  return regexMatch (value, pattern, false);
-}
+  bool case_sensitive = false;
 
-////////////////////////////////////////////////////////////////////////////////
-void Rule::apply (std::string& value)
-{
-  if (context == "suppress")
-    value = "";
+  if (section == this->section)
+  {
+    if (context == "suppress")
+    {
+      if (regexMatch (line, pattern, case_sensitive))
+        line = "";
+    }
 
-  else if (context == "line")
-    value = color.colorize (value);
+    else if (context == "line")
+    {
+      if (regexMatch (line, pattern, case_sensitive))
+        line = color.colorize (line);
+    }
 
-  else if (context == "match")
-    value = color.colorize (value);
+    else if (context == "match")
+    {
+      std::vector <int> start;
+      std::vector <int> end;
+      if (regexMatch (start, end, line, pattern, case_sensitive))
+        line = line.substr (0, start[0])
+             + color.colorize (line.substr (start[0], end[0] - start[0]))
+             + line.substr (end[0]);
+    }
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

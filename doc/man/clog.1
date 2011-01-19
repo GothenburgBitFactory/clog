@@ -1,0 +1,49 @@
+.TH clog 1 YYYY-MM-DD "clog 0.9.0" "User Manuals"
+
+.SH NAME
+clog \- A colorizing log filter
+
+.SH SYNOPSIS
+.B clog [--help] [--version] [ <section> ... ]
+
+.SH DESCRIPTION
+Clog is a filter, which means it copies its input to its output.  But if the
+lines of input match certain patterns, actions are taken.
+
+The patterns are defined in ~/.clogrc as regular expressions, and the actions
+are specified, to colorize the line, the matching pattern, perhaps to suppress
+the line, or prepend a timestamp.
+
+[TODO discuss arguments, sections]
+
+.SH CONFIGURATION FILE AND OVERRIDE OPTIONS
+Clog reads its configutation from a file in the user's home directory:
+~/.clogrc.
+
+[TODO discuss format of rules]
+
+.SH "CREDITS & COPYRIGHTS"
+Taskwarrior was written by P. Beckingham <paul@yootabory.org> and
+F. Hernandez <fredde@yootabory.org>.
+.br
+Copyright (C) 2011 Göteborg Bit Factory.
+
+clog is distributed under the GNU General Public License.  See
+http://www.gnu.org/licenses/gpl-2.0.txt for more information.
+
+.SH SEE ALSO
+
+For more information, see:
+
+.TP
+The official site at
+<http://yootabory.org>
+
+.TP
+You can contact the project by writing an email to
+<support@yootabory.org>
+
+.SH REPORTING BUGS
+.TP
+Bugs in clog may be reported to <support@yootabory.org>
+

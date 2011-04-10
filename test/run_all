@@ -1,0 +1,33 @@
+#! /bin/sh
+
+date > all.log
+
+for i in *.t
+do
+  echo "#" $i >> all.log
+  ./$i >> all.log 2>&1
+done
+
+date >> all.log
+
+START=`head -1 all.log`
+END=`tail -1 all.log`
+OS=`uname`
+
+case $OS in
+  Darwin | FreeBSD)
+    STARTEPOCH=`date -j -f "%a %b %d %T %Z %Y" "${START}" "+%s"`
+    ENDEPOCH=`date -j -f "%a %b %d %T %Z %Y" "${END}" "+%s"`
+    ;;
+  Linux)
+    STARTEPOCH=`date "+%s" -d "${START}"`
+    ENDEPOCH=`date "+%s" -d "${END}"`
+    ;;
+esac
+
+RUNTIME=$(($ENDEPOCH - $STARTEPOCH))
+
+printf "Pass:    %5d\n" $(grep ^ok all.log | wc -l)
+printf "Fail:    %5d\n" $(grep ^not all.log | wc -l)
+printf "Skipped: %5d\n" $(grep ^skip all.log | wc -l)
+printf "Runtime: %5d\n" $RUNTIME

@@ -25,7 +25,6 @@
 // http://www.opensource.org/licenses/mit-license.php
 //
 ////////////////////////////////////////////////////////////////////////////////
-#include <iostream> // TODO Remove
 
 #include <Rule.h>
 #include <Nibbler.h>
@@ -78,14 +77,6 @@ Rule::Rule (const std::string& value)
     }
 
     color = Color (color_name);
-
-/*
-    std::cout << "# section=" << section
-              << " pattern=/" << pattern    << "/"
-              << " color='"   << color_name << "'"
-              << " context="  << context
-              << "\n";
-*/
 
     // Now for "match" context patterns, add an enclosing ( ... ) is not already
     // present.

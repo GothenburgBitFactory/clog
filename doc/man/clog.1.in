@@ -92,7 +92,7 @@ apache rule / 5[0-9][0-9] / --> bold red match
 .RE
 
 .SH "CREDITS & COPYRIGHTS"
-Taskwarrior was written by P. Beckingham <paul@yootabory.org> and
+Clog was written by P. Beckingham <paul@yootabory.org> and
 F. Hernandez <fredde@yootabory.org>.
 .br
 Copyright (C) 2011 Göteborg Bit Factory.

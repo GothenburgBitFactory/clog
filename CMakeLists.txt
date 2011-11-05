@@ -15,7 +15,7 @@ add_subdirectory (src)
 add_subdirectory (doc)
 add_subdirectory (test EXCLUDE_FROM_ALL)
 
-set (doc_FILES ChangeLog README INSTALL AUTHORS COPYING)
+set (doc_FILES ChangeLog README INSTALL AUTHORS COPYING LICENSE)
 foreach (doc_FILE ${doc_FILES})
   install (FILES ${doc_FILE}  DESTINATION share/doc/${PACKAGE_NAME})
 endforeach (doc_FILE)

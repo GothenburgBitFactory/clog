@@ -1,0 +1,25 @@
+/* cmake.h.in. Creates cmake.h during a build */
+
+/* Package information */
+#define PACKAGE "${PACKAGE}"
+#define VERSION "${VERSION}"
+#define PACKAGE_BUGREPORT "${PACKAGE_BUGREPORT}"
+#define PACKAGE_NAME      "${PACKAGE_NAME}"
+#define PACKAGE_TARNAME   "${PACKAGE_TARNAME}"
+#define PACKAGE_VERSION   "${PACKAGE_VERSION}"
+#define PACKAGE_STRING    "${PACKAGE_STRING}"
+
+/* git information */
+#cmakedefine HAVE_COMMIT
+
+/* Compiling platform */
+#cmakedefine LINUX
+#cmakedefine DARWIN
+#cmakedefine CYGWIN
+#cmakedefine FREEBSD
+#cmakedefine OPENBSD
+#cmakedefine HAIKU
+#cmakedefine SOLARIS
+#cmakedefine WIN32
+#cmakedefine UNKNOWN
+

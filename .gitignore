@@ -1,5 +1,8 @@
 CMakeFiles
 CMakeCache.txt
-cmake_install.cmake
+*.cmake
 Makefile
 install_manifest.txt
+cmake.h
+commit.h
+

@@ -95,7 +95,7 @@ apache rule / 5[0-9][0-9] / --> bold red match
 Clog was written by P. Beckingham <paul@yootabory.org> and
 F. Hernandez <fredde@yootabory.org>.
 .br
-Copyright (C) 2011 Göteborg Bit Factory.
+Copyright (C) 2011-2012 Göteborg Bit Factory.
 
 clog is distributed under the GNU General Public License.  See
 http://www.gnu.org/licenses/gpl-2.0.txt for more information.

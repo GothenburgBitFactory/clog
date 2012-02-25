@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // clog - a colorizing log filter
 //
-// Copyright 2006-2011, Göteborg Bit Factory.
+// Copyright 2006-2012, Göteborg Bit Factory.
 // All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,12 +25,14 @@
 // http://www.opensource.org/licenses/mit-license.php
 //
 ////////////////////////////////////////////////////////////////////////////////
+
 #ifndef INCLUDED_COLOR
 #define INCLUDED_COLOR
 
 #include <string>
 
 ////////////////////////////////////////////////////////////////////////////////
+#define _COLOR_INVERSE   0x00400000  // Inverse attribute.
 #define _COLOR_256       0x00200000  // 256-color mode.
 #define _COLOR_HASBG     0x00100000  // Has background color (all values taken).
 #define _COLOR_HASFG     0x00080000  // Has foreground color (all values taken).
@@ -47,7 +49,7 @@ public:
 
   Color ();
   Color (const Color&);
-  Color (unsigned int);                         // 256 | UNDERLINE | BOLD | BRIGHT | (BG << 8) | FG
+  Color (unsigned int);                         // 256 | INVERSE | UNDERLINE | BOLD | BRIGHT | (BG << 8) | FG
   Color (const std::string&);                   // "red on bright black"
   Color (color_id);                             // fg.
   Color (color_id, color_id);                   // fg, bg.
@@ -62,6 +64,7 @@ public:
 
   std::string colorize (const std::string&);
   static std::string colorize (const std::string&, const std::string&);
+  static std::string strip (const std::string&);
 
   bool nontrivial ();
 
@@ -71,7 +74,7 @@ private:
   std::string bg () const;
 
 private:
-  unsigned int value;
+  unsigned int _value;
 };
 
 #endif

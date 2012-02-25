@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // clog - a colorizing log filter
 //
-// Copyright 2011, Göteborg Bit Factory.
+// Copyright 2011-2012, Göteborg Bit Factory.
 // All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,6 +37,7 @@
 #include <time.h>
 
 #include <Rule.h>
+#include <cmake.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // - Locate $HOME
@@ -135,13 +136,14 @@ int main (int argc, char** argv)
                !strcmp (argv[i], "--version"))
       {
         std::cout << "\n"
-                  << "clog 0.9.0 build for xxxx\n"
+                  << PACKAGE_STRING
+                  << " build for xxxx\n"
+                  // TODO Expand xxxx --> platform
                   << "\n"
-                  << "Copyright (C) 2011 Göteborg Bit Factory\n"
+                  << "Copyright (C) 2011-2012 Göteborg Bit Factory\n"
                   << "\n"
-                  << "clog may be copied only under the terms of the GNU "
-                     "General Public License, which may be found in the "
-                     "source kit.\n"
+                  << "Clog may be copied only under the terms of the MIT "
+                     "license, which may be found in the source kit.\n"
                   << "\n"
                   << "Documentation for clog can be found using 'man clog' "
                      "or at http://yootabory.org\n"

@@ -1,7 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - a colorizing log filter
+// libkronisk - Date/Time/Duration Library
 //
-// Copyright 2010-2012, Göteborg Bit Factory.
+// Copyright 2006 - 2012, Göteborg Bit Factory.
+// Copyright 2006 - 2012, Paul Beckingham, Federico Hernandez.
 // All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,15 +27,43 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef INCLUDED_RX
-#define INCLuDED_RX
+#ifndef INCLUDED_UNITTEST
+#define INCLUDED_UNITTEST
 
 #include <string>
-#include <vector>
 
-bool regexMatch (const std::string&, const std::string&, bool caseSensitive = true);
-bool regexMatch (std::vector<std::string>&, const std::string&, const std::string&, bool caseSensitive = true);
-bool regexMatch (std::vector<int>&, std::vector<int>&, const std::string&, const std::string&, bool caseSensitive = true);
+class UnitTest
+{
+public:
+  UnitTest ();
+  UnitTest (int);
+  ~UnitTest ();
+
+  void plan (int);
+  void planMore (int);
+  void ok (bool, const std::string&);
+  void notok (bool, const std::string&);
+  void is (bool, bool, const std::string&);
+  void is (size_t, size_t, const std::string&);
+  void is (int, int, const std::string&);
+  void is (double, double, const std::string&);
+  void is (double, double, double, const std::string&);
+  void is (unsigned char, unsigned char, const std::string&);
+  void is (const std::string&, const std::string&, const std::string&);
+  void is (const char*, const char*, const std::string&);
+  void diag (const std::string&);
+  void pass (const std::string&);
+  void fail (const std::string&);
+  void skip (const std::string&);
+
+private:
+  int mPlanned;
+  int mCounter;
+  int mPassed;
+  int mFailed;
+  int mSkipped;
+};
 
 #endif
 
+////////////////////////////////////////////////////////////////////////////////

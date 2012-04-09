@@ -35,7 +35,12 @@ The format of the rules is:
 
 .RS
 <section> rule /<pattern>/ --> <color> <action>
+<section> rule "<pattern>" --> <color> <action>
 .RE
+
+If the pattern is surrounded by / characters, it is interpreted as a regular
+expression.  If the pattern is surrounded by " characters, it is interpreted as
+a string fragment.
 
 The section is simply a way to allow multiple rules sets, so that one .clogrc
 file can serve multiple uses.  The pattern may be any supported Standard C

@@ -36,6 +36,8 @@
 // taskd     rule /code:"2.."/ --> green   line
 Rule::Rule (const std::string& line)
 {
+  fragment = "";
+
   Nibbler n (line);
   n.skipWS ();
 
@@ -43,50 +45,95 @@ Rule::Rule (const std::string& line)
   if (n.getUntilWS (section)     &&
       n.skipWS ()                &&
       n.getLiteral ("rule")      &&
-      n.skipWS ()                &&
-      n.skip ('/')               &&
-      n.getRx ("[^/]+", pattern) &&
-      n.skip ('/')               &&
-      n.skipWS ()                &&
-      n.getLiteral ("-->"))
+      n.skipWS ())
   {
-    n.skipWS ();
-
-    std::string rest;
-    n.getRemainder (rest);
-
-    std::string color_name;
-    std::vector <std::string> words;
-    split (words, rest, ' ');
-    std::vector <std::string>::iterator i;
-    for (i = words.begin (); i != words.end (); ++i)
+    // <section> rule /<pattern>/
+    if (n.getQuoted ('/', pattern) &&
+        n.skipWS ()                &&
+        n.getLiteral ("-->"))
     {
-      if (i->length ())
-      {
-             if (*i == "line")      context = *i;
-        else if (*i == "match")     context = *i;
-        else if (*i == "suppress")  context = *i;
-        // TODO Support context "datetime", "time"
-        else
-        {
-          if (color_name.length ())
-            color_name += " ";
+      n.skipWS ();
 
-          color_name += *i;
+      std::string rest;
+      n.getRemainder (rest);
+
+      std::string color_name;
+      std::vector <std::string> words;
+      split (words, rest, ' ');
+      std::vector <std::string>::iterator i;
+      for (i = words.begin (); i != words.end (); ++i)
+      {
+        if (i->length ())
+        {
+               if (*i == "line")      context = *i;
+          else if (*i == "match")     context = *i;
+          else if (*i == "suppress")  context = *i;
+          // TODO Support context "datetime", "time"
+          else
+          {
+            if (color_name.length ())
+              color_name += " ";
+
+            color_name += *i;
+          }
         }
       }
+
+      color = Color (color_name);
+
+      // Now for "match" context patterns, add an enclosing ( ... ) is not already
+      // present.
+      if (context == "match")
+        if (pattern.find ('(') == std::string::npos)
+          pattern = "(" + pattern + ")";
+
+      rx = RX (pattern, true);
+      return;
     }
 
-    color = Color (color_name);
+    // <section> rule "<pattern>"
+    else if (n.getQuoted ('"', pattern) &&
+             n.skipWS ()                &&
+             n.getLiteral ("-->"))
+    {
+      n.skipWS ();
 
-    // Now for "match" context patterns, add an enclosing ( ... ) is not already
-    // present.
-    if (context == "match")
-      if (pattern.find ('(') == std::string::npos)
-        pattern = "(" + pattern + ")";
+      std::string rest;
+      n.getRemainder (rest);
 
-    rx = RX (pattern, true);
-    return;
+      std::string color_name;
+      std::vector <std::string> words;
+      split (words, rest, ' ');
+      std::vector <std::string>::iterator i;
+      for (i = words.begin (); i != words.end (); ++i)
+      {
+        if (i->length ())
+        {
+               if (*i == "line")      context = *i;
+          else if (*i == "match")     context = *i;
+          else if (*i == "suppress")  context = *i;
+          // TODO Support context "datetime", "time"
+          else
+          {
+            if (color_name.length ())
+              color_name += " ";
+
+            color_name += *i;
+          }
+        }
+      }
+
+      color = Color (color_name);
+
+      // Now for "match" context patterns, add an enclosing ( ... ) is not already
+      // present.
+      if (context == "match")
+        if (pattern.find ('(') == std::string::npos)
+          pattern = "(" + pattern + ")";
+
+      fragment = pattern;
+      return;
+    }
   }
 
   // Indicates that 'line' was not a rule def, but a blank line or similar.
@@ -98,10 +145,11 @@ Rule::Rule (const Rule& other)
 {
   if (this != &other)
   {
-    section = other.section;
-    color   = other.color;
-    context = other.context;
-    rx      = other.rx;
+    section  = other.section;
+    color    = other.color;
+    context  = other.context;
+    rx       = other.rx;
+    fragment = other.fragment;
   }
 }
 
@@ -115,10 +163,11 @@ Rule& Rule::operator= (const Rule& other)
 {
   if (this != &other)
   {
-    section = other.section;
-    color   = other.color;
-    context = other.context;
-    rx      = other.rx;
+    section  = other.section;
+    color    = other.color;
+    context  = other.context;
+    rx       = other.rx;
+    fragment = other.fragment;
   }
 
   return *this;
@@ -131,24 +180,51 @@ void Rule::apply (const std::string& section, std::string& line)
   {
     if (context == "suppress")
     {
-      if (rx.match (line))
-        line = "";
+      if (fragment != "")
+      {
+        if (line.find (fragment) != std::string::npos)
+          line = "";
+      }
+      else
+      {
+        if (rx.match (line))
+          line = "";
+      }
     }
 
     else if (context == "line")
     {
-      if (rx.match (line))
-        line = color.colorize (line);
+      if (fragment != "")
+      {
+        if (line.find (fragment) != std::string::npos)
+          line = color.colorize (line);
+      }
+      else
+      {
+        if (rx.match (line))
+          line = color.colorize (line);
+      }
     }
 
     else if (context == "match")
     {
-      std::vector <int> start;
-      std::vector <int> end;
-      if (rx.match (start, end, line))
-        line = line.substr (0, start[0])
-             + color.colorize (line.substr (start[0], end[0] - start[0]))
-             + line.substr (end[0]);
+      if (fragment != "")
+      {
+        std::string::size_type pos = line.find (fragment);
+        if (pos != std::string::npos)
+          line = line.substr (0, pos)
+               + color.colorize (line.substr (pos, fragment.length ()))
+               + line.substr (pos + fragment.length ());
+      }
+      else
+      {
+        std::vector <int> start;
+        std::vector <int> end;
+        if (rx.match (start, end, line))
+          line = line.substr (0, start[0])
+               + color.colorize (line.substr (start[0], end[0] - start[0]))
+               + line.substr (end[0]);
+      }
     }
   }
 }

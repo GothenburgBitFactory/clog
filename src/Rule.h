@@ -47,6 +47,7 @@ public:
   Color color;
   std::string context;
   RX rx;
+  std::string fragment;
 };
 
 #endif

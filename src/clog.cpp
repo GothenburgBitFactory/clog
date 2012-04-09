@@ -229,8 +229,11 @@ int main (int argc, char** argv)
       }
     }
     else
+    {
       std::cout << "Cannot open ~/.clogrc\n"
                 << "See 'man clog' for details, and a sample file.\n";
+      status = -1;
+    }
   }
 
   catch (std::string& error)

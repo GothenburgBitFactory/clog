@@ -125,8 +125,8 @@ Rule::Rule (const std::string& line)
 
       color = Color (color_name);
 
-      // Now for "match" context patterns, add an enclosing ( ... ) is not already
-      // present.
+      // Now for "match" context patterns, add an enclosing ( ... ) is not
+      // already present.
       if (context == "match")
         if (pattern.find ('(') == std::string::npos)
           pattern = "(" + pattern + ")";
@@ -174,6 +174,15 @@ Rule& Rule::operator= (const Rule& other)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// There are two kinds of matching:
+//   - regex     (when fragment is     "")
+//   - substring (when fragment is not "")
+//
+// There are three corresponding actions:
+//   - suppress  Eats the line
+//   - line      Colorizes the line
+//   - match     Colorizes the matching part
+//
 void Rule::apply (const std::string& section, std::string& line)
 {
   if (section == this->section)

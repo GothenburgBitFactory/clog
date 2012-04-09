@@ -44,7 +44,9 @@
 // - Read $HOME/.clogrc
 // - Strip comments
 // - Parse rules
-void loadRules (std::vector <Rule>& rules)
+//
+// Note that it is an error to not have an ~/.clogrc file.
+bool loadRules (std::vector <Rule>& rules)
 {
   // Locate $HOME.
   struct passwd* pw = getpwuid (getuid ());
@@ -80,12 +82,16 @@ void loadRules (std::vector <Rule>& rules)
     }
 
     rc.close ();
+    return true;
   }
-  else
-    std::cout << "Cannot open " << file.c_str () << std::endl;
+
+  return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Applies all the rules in all the sections specified.
+// Note that processing does not stop after the first rule match - it keeps
+//      going.
 void applyRules (
   std::vector <Rule>& rules,
   std::vector <std::string>& sections,
@@ -192,39 +198,39 @@ int main (int argc, char** argv)
 
     // Read ~/.clogrc
     std::vector <Rule> rules;
-    loadRules (rules);
-
-    // Main loop: read line, apply rules, write line.
-    std::string line;
-    while (getline (std::cin, line)) // Strips \n
+    if (loadRules (rules))
     {
-      applyRules (rules, sections, line);
-      if (line.length ())
+      // Main loop: read line, apply rules, write line.
+      std::string line;
+      while (getline (std::cin, line)) // Strips \n
       {
-        if (prepend_date || prepend_time)
+        applyRules (rules, sections, line);
+        if (line.length ())
         {
-          time_t current;
-          time (&current);
-          struct tm* t = localtime (&current);
-
-          if (prepend_date)
+          if (prepend_date || prepend_time)
           {
-            std::cout << t->tm_year + 1900 << '-'
-                      << std::setw (2) << std::setfill ('0') << t->tm_mon + 1 << '-'
-                      << std::setw (2) << std::setfill ('0') << t->tm_mday    << ' ';
+            time_t current;
+            time (&current);
+            struct tm* t = localtime (&current);
+
+            if (prepend_date)
+              std::cout << t->tm_year + 1900 << '-'
+                        << std::setw (2) << std::setfill ('0') << t->tm_mon + 1 << '-'
+                        << std::setw (2) << std::setfill ('0') << t->tm_mday    << ' ';
+
+            if (prepend_time)
+              std::cout << std::setw (2) << std::setfill ('0') << t->tm_hour << ':'
+                        << std::setw (2) << std::setfill ('0') << t->tm_min  << ':'
+                        << std::setw (2) << std::setfill ('0') << t->tm_sec  << ' ';
           }
 
-          if (prepend_time)
-          {
-            std::cout << std::setw (2) << std::setfill ('0') << t->tm_hour << ':'
-                      << std::setw (2) << std::setfill ('0') << t->tm_min  << ':'
-                      << std::setw (2) << std::setfill ('0') << t->tm_sec  << ' ';
-          }
+          std::cout << line << std::endl;
         }
-
-        std::cout << line << std::endl;
       }
     }
+    else
+      std::cout << "Cannot open ~/.clogrc\n"
+                << "See 'man clog' for details, and a sample file.\n";
   }
 
   catch (std::string& error)

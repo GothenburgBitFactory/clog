@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - a colorizing log filter
+// clog - colorized log tail
 //
-// Copyright 2006-2012, Göteborg Bit Factory.
+// Copyright 2010-2012, Paul Beckingham, Federico Hernandez.
 // All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -41,11 +41,21 @@ void join (std::string&, const std::string&, const std::vector<std::string>&);
 void join (std::string&, const std::string&, const std::vector<int>&);
 std::string lowerCase (const std::string&);
 std::string upperCase (const std::string&);
-std::string format (char);
-std::string format (int);
-std::string formatHex (int);
-std::string format (float, int, int);
-std::string format (double, int, int);
+const std::string format (char);
+const std::string format (int);
+const std::string formatHex (int);
+const std::string format (float, int, int);
+const std::string format (double, int, int);
+const std::string format (double);
+const std::string format (const std::string&, const std::string&);
+const std::string format (const std::string&, int);
+const std::string format (const std::string&, const std::string&, const std::string&);
+const std::string format (const std::string&, const std::string&, int);
+const std::string format (const std::string&, const std::string&, double);
+const std::string format (const std::string&, int, const std::string&);
+const std::string format (const std::string&, int, int);
+const std::string format (const std::string&, int, double);
+const std::string format (const std::string&, const std::string&, const std::string&, const std::string&);
 
 #endif
 ////////////////////////////////////////////////////////////////////////////////

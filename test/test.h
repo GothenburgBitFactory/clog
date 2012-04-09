@@ -1,8 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
-// libkronisk - Date/Time/Duration Library
+// clog - colorized log tail
 //
-// Copyright 2006 - 2012, Göteborg Bit Factory.
-// Copyright 2006 - 2012, Paul Beckingham, Federico Hernandez.
+// Copyright 2010-2012, Paul Beckingham, Federico Hernandez.
 // All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy

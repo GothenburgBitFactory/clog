@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - a colorizing log filter
+// clog - colorized log tail
 //
-// Copyright 2006-2012, Göteborg Bit Factory.
+// Copyright 2010-2012, Paul Beckingham, Federico Hernandez.
 // All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,17 +28,18 @@
 
 #include <Rule.h>
 #include <Nibbler.h>
-#include <rx.h>
+#include <RX.h>
 #include <text.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // <section> rule /<pattern>/  --> <color> <context>
 // taskd     rule /code:"2.."/ --> green   line
-Rule::Rule (const std::string& value)
+Rule::Rule (const std::string& line)
 {
-  Nibbler n (value);
+  Nibbler n (line);
   n.skipWS ();
 
+  std::string pattern;
   if (n.getUntilWS (section)     &&
       n.skipWS ()                &&
       n.getLiteral ("rule")      &&
@@ -84,10 +85,11 @@ Rule::Rule (const std::string& value)
       if (pattern.find ('(') == std::string::npos)
         pattern = "(" + pattern + ")";
 
+    rx = RX (pattern, true);
     return;
   }
 
-  // Indicates that 'value' was not a rule def, but a blank line or similar.
+  // Indicates that 'line' was not a rule def, but a blank line or similar.
   throw int (1);
 }
 
@@ -97,9 +99,9 @@ Rule::Rule (const Rule& other)
   if (this != &other)
   {
     section = other.section;
-    pattern = other.pattern;
     color   = other.color;
     context = other.context;
+    rx      = other.rx;
   }
 }
 
@@ -114,9 +116,9 @@ Rule& Rule::operator= (const Rule& other)
   if (this != &other)
   {
     section = other.section;
-    pattern = other.pattern;
     color   = other.color;
     context = other.context;
+    rx      = other.rx;
   }
 
   return *this;
@@ -125,20 +127,17 @@ Rule& Rule::operator= (const Rule& other)
 ////////////////////////////////////////////////////////////////////////////////
 void Rule::apply (const std::string& section, std::string& line)
 {
-  // TODO Support caseless regexes.
-  bool case_sensitive = false;
-
   if (section == this->section)
   {
     if (context == "suppress")
     {
-      if (regexMatch (line, pattern, case_sensitive))
+      if (rx.match (line))
         line = "";
     }
 
     else if (context == "line")
     {
-      if (regexMatch (line, pattern, case_sensitive))
+      if (rx.match (line))
         line = color.colorize (line);
     }
 
@@ -146,7 +145,7 @@ void Rule::apply (const std::string& section, std::string& line)
     {
       std::vector <int> start;
       std::vector <int> end;
-      if (regexMatch (start, end, line, pattern, case_sensitive))
+      if (rx.match (start, end, line))
         line = line.substr (0, start[0])
              + color.colorize (line.substr (start[0], end[0] - start[0]))
              + line.substr (end[0]);

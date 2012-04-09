@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - a colorizing log filter
+// clog - colorized log tail
 //
-// Copyright 2011-2012, Göteborg Bit Factory.
+// Copyright 2010-2012, Paul Beckingham, Federico Hernandez.
 // All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -82,7 +82,7 @@ void loadRules (std::vector <Rule>& rules)
     rc.close ();
   }
   else
-    std::cout << "Cannot open file.cpp" << std::endl;
+    std::cout << "Cannot open " << file.c_str () << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -137,16 +137,33 @@ int main (int argc, char** argv)
       {
         std::cout << "\n"
                   << PACKAGE_STRING
-                  << " build for xxxx\n"
-                  // TODO Expand xxxx --> platform
+                  << " built for "
+#if defined (DARWIN)
+                  << "darwin"
+#elif defined (SOLARIS)
+                  << "solaris"
+#elif defined (CYGWIN)
+                  << "cygwin"
+#elif defined (OPENBSD)
+                  << "openbsd"
+#elif defined (HAIKU)
+                  << "haiku"
+#elif defined (FREEBSD)
+                  << "freebsd"
+#elif defined (LINUX)
+                  << "linux"
+#else
+                  << "unknown"
+#endif
                   << "\n"
-                  << "Copyright (C) 2011-2012 Göteborg Bit Factory\n"
+                  << "\n"
+                  << "Copyright (C) 2010-2012 Göteborg Bit Factory\n"
                   << "\n"
                   << "Clog may be copied only under the terms of the MIT "
                      "license, which may be found in the source kit.\n"
                   << "\n"
                   << "Documentation for clog can be found using 'man clog' "
-                     "or at http://yootabory.org\n"
+                     "or at http://tasktools.org\n"
                   << "\n";
         return status;
       }
@@ -166,7 +183,7 @@ int main (int argc, char** argv)
       else
       {
         sections.push_back (argv[i]);
-        std::cout << "# section '" << argv[i] << "'\n";
+        std::cout << "# section '" << argv[i] << "'\n"; // TODO Remove.
       }
     }
 

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - a colorizing log filter
+// clog - colorized log tail
 //
-// Copyright 2010-2012, Göteborg Bit Factory.
+// Copyright 2010-2012, Paul Beckingham, Federico Hernandez.
 // All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,14 +27,35 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifndef INCLUDED_RX
-#define INCLuDED_RX
+#define INCLUDED_RX
 
 #include <string>
 #include <vector>
+#include <regex.h>
 
-bool regexMatch (const std::string&, const std::string&, bool caseSensitive = true);
-bool regexMatch (std::vector<std::string>&, const std::string&, const std::string&, bool caseSensitive = true);
-bool regexMatch (std::vector<int>&, std::vector<int>&, const std::string&, const std::string&, bool caseSensitive = true);
+class RX
+{
+public:
+  RX ();
+  RX (const std::string&, bool caseSensitive = true);
+  RX (const RX&);
+  RX& operator= (const RX&);
+  bool operator== (const RX&) const;
+  ~RX ();
+
+  bool match (const std::string&);
+  bool match (std::vector<std::string>&, const std::string&);
+  bool match (std::vector <int>&, std::vector <int>&, const std::string&);
+
+private:
+  void compile ();
+
+private:
+  bool _compiled;
+  std::string _pattern;
+  bool _case_sensitive;
+  regex_t _regex;
+};
 
 #endif
 

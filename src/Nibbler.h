@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - a colorizing log filter
+// clog - colorized log tail
 //
-// Copyright 2006-2012, Göteborg Bit Factory.
+// Copyright 2010-2012, Paul Beckingham, Federico Hernandez.
 // All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,16 +25,23 @@
 // http://www.opensource.org/licenses/mit-license.php
 //
 ////////////////////////////////////////////////////////////////////////////////
+
 #ifndef INCLUDED_NIBBLER
 #define INCLUDED_NIBBLER
 
+#define NIBBLER_FEATURE_DATE
+#undef  NIBBLER_FEATURE_DATE
+
+#define NIBBLER_FEATURE_REGEX
+//#undef  NIBBLER_FEATURE_REGEX
+
 #include <string>
+#include <vector>
 
 class Nibbler
 {
 public:
   Nibbler ();                          // Default constructor
-  Nibbler (const char*);               // Constructor
   Nibbler (const std::string&);        // Constructor
   Nibbler (const Nibbler&);            // Copy constructor
   Nibbler& operator= (const Nibbler&); // Assignment operator
@@ -42,7 +49,9 @@ public:
 
   bool getUntil (char, std::string&);
   bool getUntil (const std::string&, std::string&);
+#ifdef NIBBLER_FEATURE_REGEX
   bool getUntilRx (const std::string&, std::string&);
+#endif
   bool getUntilOneOf (const std::string&, std::string&);
   bool getUntilWS (std::string&);
   bool getUntilEOL (std::string&);
@@ -52,38 +61,58 @@ public:
   bool getAllOneOf (const std::string&, std::string&);
 */
 
-  bool getQuoted (char, std::string&, bool unescape = true, bool quote = false);
+  bool getN (const int, std::string&);
+  bool getQuoted (char, std::string&, bool quote = false);
+  bool getDigit (int&);
   bool getInt (int&);
   bool getHex (int&);
   bool getUnsignedInt (int&);
+  bool getNumber (std::string&);
   bool getNumber (double&);
+  bool getUnsignedNumber (double&);
   bool getLiteral (const std::string&);
+#ifdef NIBBLER_FEATURE_REGEX
   bool getRx (const std::string&, std::string&);
-
-  void getRemainder (std::string&);
+#endif
+  bool getUUID (std::string&);
+  bool getPartialUUID (std::string&);
+  bool getDateISO (time_t&);
+#ifdef NIBBLER_FEATURE_DATE
+  bool getDate (const std::string&, time_t&);
+#endif
+  bool getOneOf (const std::vector <std::string>&, std::string&);
+  bool getName (std::string&);
+  bool getWord (std::string&);
 
   bool skipN (const int quantity = 1);
   bool skip (char);
   bool skipAll (char);
   bool skipAllOneOf (const std::string&);
   bool skipWS ();
+#ifdef NIBBLER_FEATURE_REGEX
   bool skipRx (const std::string&);
+#endif
+
+  void getRemainder (std::string&);
 
   char next ();
   std::string next (const int quantity);
 
-  void save ();
-  void restore ();
+  std::string::size_type cursor ();
+  std::string::size_type save ();
+  std::string::size_type restore ();
+  const std::string& str () const;
 
   bool depleted ();
 
+  static bool isPunctuation (char);
   std::string dump ();
 
 private:
-  std::string mInput;
-  std::string::size_type mLength;
-  std::string::size_type mCursor;
-  std::string::size_type mSaved;
+  std::string _input;
+  std::string::size_type _length;
+  std::string::size_type _cursor;
+  std::string::size_type _saved;
 };
 
 #endif

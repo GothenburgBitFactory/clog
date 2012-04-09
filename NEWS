@@ -1,3 +1,23 @@
 
-It's 1.0.0 - everything is new!
+New Features in clog 1.0.0
+
+  - Pattern matching, colorization, suppression.
+  - Date- and time-stamp insertion.
+
+  Please refer to the ChangeLog file for full details.
+
+---
+
+Clog has been built and tested on the following configurations:
+
+  * OS X 10.7 Lion
+
+---
+
+While clog has undergone testing, bugs are sure to remain.  If you
+encounter a bug, please send a message to:
+
+  support@tasktools.org
+
+Thank you.
 

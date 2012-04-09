@@ -1,18 +1,19 @@
 .TH clog 1 YYYY-MM-DD "${PACKAGE_STRING}" "User Manuals"
 
 .SH NAME
-clog \- A colorizing log filter
+clog \- colorized log tail
 
 .SH SYNOPSIS
 .B clog [--help] [--version] [--date] [--time] [ <section> ... ]
 
 .SH DESCRIPTION
-Clog is a filter, which means it copies its input to its output.  But if the
-lines of input match certain patterns, actions are taken.
+Clog is a filter command, which means it copies its input to its output.  But if
+lines in the input match certain patterns, actions are taken.  These are called
+rules.
 
-The patterns are defined in ~/.clogrc as regular expressions, and the actions
-are specified, to colorize the line, the matching pattern, perhaps to suppress
-the line, or prepend a timestamp.
+The rules are defined in ~/.clogrc as regular expressions, and the actions
+are specified, to colorize either the line or matching pattern, or perhaps to
+suppress the line.
 
 If --date is specified, the current date, in the form YYYY-MM-DD is prepended
 to all lines.
@@ -27,7 +28,7 @@ If more than one section is specified, the rules sets are combined, in the
 sequence found.
 
 .SH CONFIGURATION FILE AND OVERRIDE OPTIONS
-Clog reads its configutation from a file in the user's home directory:
+Clog reads its configuration from a file in the user's home directory:
 ~/.clogrc.
 
 The format of the rules is:
@@ -37,8 +38,8 @@ The format of the rules is:
 .RE
 
 The section is simply a way to allow multiple rules sets, so that one .clogrc
-file can serve multiple uses.  The pattern is any supported Standard C Library
-regular expression.  Action must be one of 'line', 'match' or 'suppress'.
+file can serve multiple uses.  The pattern may be any supported Standard C
+Library regular expression.  Action must be one of 'line', 'match' or 'suppress'.
 
 Note that there is a default section, called 'default'.  Putting rules in the
 default section means that no section need be specified on the command line.
@@ -92,13 +93,11 @@ apache rule / 5[0-9][0-9] / --> bold red match
 .RE
 
 .SH "CREDITS & COPYRIGHTS"
-Clog was written by P. Beckingham <paul@yootabory.org> and
-F. Hernandez <fredde@yootabory.org>.
-.br
-Copyright (C) 2011-2012 Göteborg Bit Factory.
+Copyright (C) 2006 \- 2012 P. Beckingham, F. Hernandez.
+Copyright (C) 2006 \- 2012 Göteborg Bit Factory.
 
-clog is distributed under the GNU General Public License.  See
-http://www.gnu.org/licenses/gpl-2.0.txt for more information.
+Clog is distributed under the MIT license. See
+http://www.opensource.org/licenses/mit-license.php for more information.
 
 .SH SEE ALSO
 
@@ -106,13 +105,13 @@ For more information, see:
 
 .TP
 The official site at
-<http://yootabory.org>
+<http://tasktools.org/projects/clog.html>
 
 .TP
 You can contact the project by writing an email to
-<support@yootabory.org>
+<support@tasktools.org>
 
 .SH REPORTING BUGS
 .TP
-Bugs in clog may be reported to <support@yootabory.org>
+Bugs in clog may be reported to <support@tasktools.org>
 

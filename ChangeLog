@@ -1,7 +1,12 @@
 ------ current release ---------------------------
 
 1.0.0 (<date>) <sha1>
- + 
+ + Supports multiple rulesets in different sections of ~/.clogrc.
+ + Supports adding date- or time-stamps to each line.
+ + Supports colorizing lines or patterns.
+ + Supports suppression of lines.
+ + Has clog.1 man page.
+ + Uses cmake build system.
 
 ------ old releases ------------------------------
 

@@ -126,7 +126,7 @@ int main (int argc, char** argv)
           !strcmp (argv[i], "--help"))
       {
         std::cout << "\n"
-                  << "Usage: clog [--help] [--version] [--date] [--time] "
+                  << "Usage: clog [-h|--help] [-v|--version] [-d|--date] [-t|--time] "
                   << "[ <section> ... ]\n"
                   << "\n";
         return status;
@@ -163,7 +163,7 @@ int main (int argc, char** argv)
                      "license, which may be found in the source kit.\n"
                   << "\n"
                   << "Documentation for clog can be found using 'man clog' "
-                     "or at http://tasktools.org\n"
+                     "or at http://tasktools.org/projects/clog.html\n"
                   << "\n";
         return status;
       }
@@ -183,7 +183,6 @@ int main (int argc, char** argv)
       else
       {
         sections.push_back (argv[i]);
-        std::cout << "# section '" << argv[i] << "'\n"; // TODO Remove.
       }
     }
 

@@ -13,6 +13,11 @@ add_custom_target (build_tests DEPENDS ${test_SRCS}
                                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
 
 foreach (src_FILE ${test_SRCS})
-  add_executable (${src_FILE} "${src_FILE}.cpp" test.cpp)
+  add_executable (${src_FILE} "${src_FILE}.cpp"
+                              ../src/Nibbler.cpp
+                              ../src/RX.cpp
+                              ../src/Color.cpp
+                              ../src/text.cpp
+                              test.cpp)
 endforeach (src_FILE)
 

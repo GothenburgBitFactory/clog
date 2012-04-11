@@ -40,7 +40,7 @@ public:
   Rule (const Rule&);
   virtual ~Rule ();
   Rule& operator= (const Rule&);
-  void apply (const std::string&, std::string&);
+  bool apply (const std::string&, std::string&);
 
 public:
   std::string section;

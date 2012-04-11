@@ -40,23 +40,13 @@
 #include <cmake.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-// - Locate $HOME
-// - Read $HOME/.clogrc
+// - Read rc file
 // - Strip comments
 // - Parse rules
 //
-// Note that it is an error to not have an ~/.clogrc file.
-bool loadRules (std::vector <Rule>& rules)
+// Note that it is an error to not have an rc file.
+bool loadRules (const std::string& file, std::vector <Rule>& rules)
 {
-  // Locate $HOME.
-  struct passwd* pw = getpwuid (getuid ());
-  if (!pw)
-    throw std::string ("Could not read home directory from the passwd file.");
-
-  std::string file = pw->pw_dir;
-  file += "/.clogrc";
-
-  // Read $HOME/.clogrc
   std::ifstream rc (file.c_str ());
   if (rc.good ())
   {
@@ -77,6 +67,7 @@ bool loadRules (std::vector <Rule>& rules)
         }
         catch (int)
         {
+          // Deliberately ignored - error handling.
         }
       }
     }
@@ -107,9 +98,9 @@ void applyRules (
       rule->apply (*section, line);
 
 /*
-      // Stop after first rule match.
-      // TODO Configurable?
-      return;
+      if (rule->apply (*section, line) &&
+          stop_at_first_match)
+        return;
 */
     }
   }
@@ -122,6 +113,16 @@ int main (int argc, char** argv)
 
   try
   {
+    // Locate $HOME.
+    struct passwd* pw = getpwuid (getuid ());
+    if (!pw)
+      throw std::string ("Could not read home directory from the passwd file.");
+
+    // Assume ~/.clogrc
+    std::string rcFile = pw->pw_dir;
+    rcFile += "/.clogrc";
+
+    // Process arguments.
     std::vector <std::string> sections;
     bool prepend_date = false;
     bool prepend_time = false;
@@ -133,7 +134,7 @@ int main (int argc, char** argv)
       {
         std::cout << "\n"
                   << "Usage: clog [-h|--help] [-v|--version] [-d|--date] [-t|--time] "
-                  << "[ <section> ... ]\n"
+                  << " [-f|--file <rc>] [ <section> ... ]\n"
                   << "\n";
         return status;
       }
@@ -162,7 +163,6 @@ int main (int argc, char** argv)
                   << "unknown"
 #endif
                   << "\n"
-                  << "\n"
                   << "Copyright (C) 2010-2012 Göteborg Bit Factory\n"
                   << "\n"
                   << "Clog may be copied only under the terms of the MIT "
@@ -186,6 +186,13 @@ int main (int argc, char** argv)
         prepend_time = true;
       }
 
+      else if (argc > i + 1 &&
+               (!strcmp (argv[i], "-f") ||
+                !strcmp (argv[i], "--file")))
+      {
+        rcFile = argv[++i];
+      }
+
       else
       {
         sections.push_back (argv[i]);
@@ -196,9 +203,9 @@ int main (int argc, char** argv)
     if (sections.size () == 0)
       sections.push_back ("default");
 
-    // Read ~/.clogrc
+    // Read rc file.
     std::vector <Rule> rules;
-    if (loadRules (rules))
+    if (loadRules (rcFile, rules))
     {
       // Main loop: read line, apply rules, write line.
       std::string line;
@@ -230,7 +237,7 @@ int main (int argc, char** argv)
     }
     else
     {
-      std::cout << "Cannot open ~/.clogrc\n"
+      std::cout << "Cannot open " << rcFile << "\n"
                 << "See 'man clog' for details, and a sample file.\n";
       status = -1;
     }

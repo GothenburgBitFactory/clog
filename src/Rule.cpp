@@ -183,7 +183,7 @@ Rule& Rule::operator= (const Rule& other)
 //   - line      Colorizes the line
 //   - match     Colorizes the matching part
 //
-void Rule::apply (const std::string& section, std::string& line)
+bool Rule::apply (const std::string& section, std::string& line)
 {
   if (section == this->section)
   {
@@ -192,12 +192,18 @@ void Rule::apply (const std::string& section, std::string& line)
       if (fragment != "")
       {
         if (line.find (fragment) != std::string::npos)
+        {
           line = "";
+          return true;
+        }
       }
       else
       {
         if (rx.match (line))
+        {
           line = "";
+          return true;
+        }
       }
     }
 
@@ -206,12 +212,18 @@ void Rule::apply (const std::string& section, std::string& line)
       if (fragment != "")
       {
         if (line.find (fragment) != std::string::npos)
+        {
           line = color.colorize (line);
+          return true;
+        }
       }
       else
       {
         if (rx.match (line))
+        {
           line = color.colorize (line);
+          return true;
+        }
       }
     }
 
@@ -221,21 +233,29 @@ void Rule::apply (const std::string& section, std::string& line)
       {
         std::string::size_type pos = line.find (fragment);
         if (pos != std::string::npos)
+        {
           line = line.substr (0, pos)
                + color.colorize (line.substr (pos, fragment.length ()))
                + line.substr (pos + fragment.length ());
+          return true;
+        }
       }
       else
       {
         std::vector <int> start;
         std::vector <int> end;
         if (rx.match (start, end, line))
+        {
           line = line.substr (0, start[0])
                + color.colorize (line.substr (start[0], end[0] - start[0]))
                + line.substr (end[0]);
+          return true;
+        }
       }
     }
   }
+
+  return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

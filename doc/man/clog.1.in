@@ -4,7 +4,7 @@
 clog \- colorized log tail
 
 .SH SYNOPSIS
-.B clog [--help] [--version] [--date] [--time] [ <section> ... ]
+.B clog [-h|--help] [-v|--version] [-d|--date] [-t|--time] [-f|--file <rc>] [ <section> ... ]
 
 .SH DESCRIPTION
 Clog is a filter command, which means it copies its input to its output.  But if
@@ -21,6 +21,9 @@ to all lines.
 If --time is specified, the current time, in the form HH:MM:SS is prepended to
 all lines.
 
+If --file is specified, an alternate configuration rc file may be specified.
+Default is to ~/.clogrc
+
 One or more section arguments may be specified.  If none are provided, 'default'
 is assumed.  A section corresponds to a rule set defined in ~/.clogrc. and
 allows the use of one .clogrc file to serve multiple different uses of clog.
@@ -35,6 +38,7 @@ The format of the rules is:
 
 .RS
 <section> rule /<pattern>/ --> <color> <action>
+.br
 <section> rule "<pattern>" --> <color> <action>
 .RE
 
@@ -99,6 +103,7 @@ apache rule / 5[0-9][0-9] / --> bold red match
 
 .SH "CREDITS & COPYRIGHTS"
 Copyright (C) 2006 \- 2012 P. Beckingham, F. Hernandez.
+.br
 Copyright (C) 2006 \- 2012 Göteborg Bit Factory.
 
 Clog is distributed under the MIT license. See

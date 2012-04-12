@@ -68,7 +68,6 @@ Rule::Rule (const std::string& line)
                if (*i == "line")      context = *i;
           else if (*i == "match")     context = *i;
           else if (*i == "suppress")  context = *i;
-          // TODO Support context "datetime", "time"
           else
           {
             if (color_name.length ())
@@ -81,8 +80,8 @@ Rule::Rule (const std::string& line)
 
       color = Color (color_name);
 
-      // Now for "match" context patterns, add an enclosing ( ... ) is not already
-      // present.
+      // Now for "match" context patterns, add an enclosing ( ... ) is not
+      // already present.
       if (context == "match")
         if (pattern.find ('(') == std::string::npos)
           pattern = "(" + pattern + ")";
@@ -124,13 +123,6 @@ Rule::Rule (const std::string& line)
       }
 
       color = Color (color_name);
-
-      // Now for "match" context patterns, add an enclosing ( ... ) is not
-      // already present.
-      if (context == "match")
-        if (pattern.find ('(') == std::string::npos)
-          pattern = "(" + pattern + ")";
-
       fragment = pattern;
       return;
     }

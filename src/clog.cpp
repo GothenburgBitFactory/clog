@@ -55,7 +55,7 @@ bool loadRules (const std::string& file, std::vector <Rule>& rules)
     while (getline (rc, line)) // Strips \n
     {
       // Remove comments.
-      if ((comment = line.find ('#') != std::string::npos))
+      if ((comment = line.find ('#')) != std::string::npos)
         line = line.substr (0, comment);
 
       // Process each non-trivial line as a rule.

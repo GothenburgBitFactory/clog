@@ -1,0 +1,30 @@
+Another rule:
+
+$ echo 'default rule "MARCELLUS" --> black on blue line' >> ~/.clogrc
+
+This rule says that if the text "MARCELLUS" is found, then the matching line is
+colored with a blue background.
+
+$ clog < hamlet
+FRANCISCO at his post. Enter to him BERNARDO
+BERNARDO Whos there?
+FRANCISCO Nay, answer me: stand, and unfold yourself.
+BERNARDO Long live the king.
+FRANCISCO Bernardo?
+BERNARDO He.
+FRANCISCO You come most carefully upon your hour.
+BERNARDO Tis now struck twelve, get thee to bed, Francisco.
+FRANCISCO For this relief much thanks: tis bitter cold, And I am sick at heart.
+BERNARDO Have you had quiet guard?
+FRANCISCO Not a mouse stirring.
+BERNARDO Well, good night.  If you do meet Horatio and Marcellus, The rivals of my watch, bid them make haste.
+FRANCISCO I think I hear them. Stand, ho. Whos there?
+[31mHORATIO[0m Friends to this ground.
+[30;44mMARCELLUS And liegemen to the Dane.[0m
+FRANCISCO Give you good night.
+[30;44mMARCELLUS O, farewell, honest soldier: Who hath relieved you?[0m
+FRANCISCO Bernardo has my place.  Give you good night.
+[30;44mMARCELLUS Holla. Bernardo.[0m
+BERNARDO Say, What, is Horatio there?
+[31mHORATIO[0m A piece of him.
+

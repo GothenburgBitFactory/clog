@@ -1,0 +1,33 @@
+So far, the rules have all involved text string matches.  Clog also supports
+regular expressions, with a slightly different syntax:
+
+$ rm ~/.clogrc
+$ echo 'default rule /[Ww]ho/ --> red match' >> ~/.clogrc
+$ echo 'default rule /n...t/ --> blue match' >> ~/.clogrc
+
+This rules color 'Who' or 'who' red, and the word 'night' (or anything matching
+'n...t') blue.
+
+$ clog < hamlet
+FRANCISCO at his post. Enter to him BERNARDO
+BERNARDO [31mWho[0ms there?
+FRANCISCO Nay, answer me: stand, and unfold yourself.
+BERNARDO Long live the king.
+FRANCISCO Bernardo?
+BERNARDO He.
+FRANCISCO You come most carefully upon your hour.
+BERNARDO Tis now struck twelve, get thee to bed, Francisco.
+FRANCISCO For this relief much thanks: tis bitter cold, And I am sick at heart.
+BERNARDO Have you had quiet guard?
+FRANCISCO Not a mouse stirring.
+BERNARDO Well, good [34mnight[0m.  If you do meet Horatio and Marcellus, The rivals of my watch, bid them make haste.
+FRANCISCO I think I hear them. Stand, ho. [31mWho[0ms there?
+HORATIO Frie[34mnds t[0mo this ground.
+MARCELLUS And liegemen to the Dane.
+FRANCISCO Give you good [34mnight[0m.
+MARCELLUS O, farewell, honest soldier: [31mWho[0m hath relieved you?
+FRANCISCO Bernardo has my place.  Give you good [34mnight[0m.
+MARCELLUS Holla. Bernardo.
+BERNARDO Say, What, is Horatio there?
+HORATIO A piece of him.
+

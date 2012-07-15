@@ -1,0 +1,31 @@
+Now we add a rule, to colorize some text:
+
+$ echo 'default rule "HORATIO" --> red match' > ~/.clogrc
+
+This rule says that if the text "HORATIO" is found, then the matching text is
+colored red.  The 'default' keyword is a rule section, which allows multiple
+rule sets.
+
+$ clog < hamlet
+FRANCISCO at his post. Enter to him BERNARDO
+BERNARDO Whos there?
+FRANCISCO Nay, answer me: stand, and unfold yourself.
+BERNARDO Long live the king.
+FRANCISCO Bernardo?
+BERNARDO He.
+FRANCISCO You come most carefully upon your hour.
+BERNARDO Tis now struck twelve, get thee to bed, Francisco.
+FRANCISCO For this relief much thanks: tis bitter cold, And I am sick at heart.
+BERNARDO Have you had quiet guard?
+FRANCISCO Not a mouse stirring.
+BERNARDO Well, good night.  If you do meet Horatio and Marcellus, The rivals of my watch, bid them make haste.
+FRANCISCO I think I hear them. Stand, ho. Whos there?
+[31mHORATIO[0m Friends to this ground.
+MARCELLUS And liegemen to the Dane.
+FRANCISCO Give you good night.
+MARCELLUS O, farewell, honest soldier: Who hath relieved you?
+FRANCISCO Bernardo has my place.  Give you good night.
+MARCELLUS Holla. Bernardo.
+BERNARDO Say, What, is Horatio there?
+[31mHORATIO[0m A piece of him.
+

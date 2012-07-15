@@ -1,0 +1,32 @@
+The section name can be used to maintain several rule sets.  Here is a new
+example using two rule sets:
+
+$ echo '# Shakespeare characters'                       >> ~/.clogrc
+$ echo 'Shakespeare rule "FRANCISCO" --> red match'     >> ~/.clogrc
+$ echo 'Shakespeare rule "BERNARDO"  --> blue match'    >> ~/.clogrc
+$ echo 'Shakespeare rule "MARCELLUS" --> green match'   >> ~/.clogrc
+$ echo 'Shakespeare rule "HORATIO"   --> white match'   >> ~/.clogrc
+$
+$ echo '# Syslog severities'                            >> ~/.clogrc
+$ echo 'syslog rule /warn|debug/     --> yellow line'   >> ~/.clogrc
+$ echo 'syslog rule /error|severe/   --> red line'      >> ~/.clogrc
+$ echo 'syslog rule "critical"       --> bold red line' >> ~/.clogrc
+$ echo 'syslog rule "ignore"         --> suppress'      >> ~/.clogrc
+
+Now we can invoke the default set from before, by not specifying a rule set:
+
+$ clog < hamlet
+...
+
+Or we can select the Shakespeare set, by providing the rule set name as an
+argument:
+
+$ clog Shakespeare < hamlet
+...
+
+We can specify multiple rule set names if we wish, but these do not include
+the default set:
+
+$ clog Shakespeare syslog < hamlet
+...
+

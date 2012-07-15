@@ -1,0 +1,17 @@
+This rule will suppress the line, instead of coloring it:
+
+$ echo 'default rule "FRANCISCO" --> suppress' >> ~/.clogrc
+$
+$ clog < hamlet
+BERNARDO Whos there?
+BERNARDO Long live the king.
+BERNARDO He.
+BERNARDO Tis now struck twelve, get thee to bed, Francisco.
+BERNARDO Have you had quiet guard?
+BERNARDO Well, good night.  If you do meet Horatio and Marcellus, The rivals of my watch, bid them make haste.
+[31mHORATIO[0m Friends to this ground.
+[30;44mMARCELLUS And liegemen to the Dane.[0m
+[30;44mMARCELLUS O, farewell, honest soldier: Who hath relieved you?[0m
+[30;44mMARCELLUS Holla. Bernardo.[0m
+BERNARDO Say, What, is Horatio there?
+[31mHORATIO[0m A piece of him.

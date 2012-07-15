@@ -1,0 +1,10 @@
+Introducing clog.
+
+Clog is a colorized log viewer.  It can spot text on a line in a log file and
+apply color to it, a little like this:
+
+$ tail -f access.log | sed -e 's/ error / <red>error<\/red> /g'
+
+This would spot the text ' error ' in access.log and mark up the matched text.
+This is what clog does.
+

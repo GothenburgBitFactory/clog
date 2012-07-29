@@ -68,6 +68,7 @@ Rule::Rule (const std::string& line)
                if (*i == "line")      context = *i;
           else if (*i == "match")     context = *i;
           else if (*i == "suppress")  context = *i;
+          else if (*i == "blank")     context = *i;
           else
           {
             if (color_name.length ())
@@ -111,6 +112,7 @@ Rule::Rule (const std::string& line)
                if (*i == "line")      context = *i;
           else if (*i == "match")     context = *i;
           else if (*i == "suppress")  context = *i;
+          else if (*i == "blank")     context = *i;
           // TODO Support context "datetime", "time"
           else
           {
@@ -170,10 +172,11 @@ Rule& Rule::operator= (const Rule& other)
 //   - regex     (when fragment is     "")
 //   - substring (when fragment is not "")
 //
-// There are three corresponding actions:
+// There are several corresponding actions:
 //   - suppress  Eats the line
 //   - line      Colorizes the line
 //   - match     Colorizes the matching part
+//   - blank     Adds a blank line before and after
 //
 bool Rule::apply (const std::string& section, std::string& line)
 {
@@ -241,6 +244,26 @@ bool Rule::apply (const std::string& section, std::string& line)
           line = line.substr (0, start[0])
                + color.colorize (line.substr (start[0], end[0] - start[0]))
                + line.substr (end[0]);
+          return true;
+        }
+      }
+    }
+
+    else if (context == "blank")
+    {
+      if (fragment != "")
+      {
+        if (line.find (fragment) != std::string::npos)
+        {
+          line = "\n" + line + "\n";
+          return true;
+        }
+      }
+      else
+      {
+        if (rx.match (line))
+        {
+          line = "\n" + line + "\n";
           return true;
         }
       }

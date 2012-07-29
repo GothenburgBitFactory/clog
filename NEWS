@@ -1,10 +1,11 @@
 
-New Features in clog 1.0.0
+New Features in clog 1.1.0
 
   - Regular expression or plain text matching.
   - Colorization of line or pattern.
   - Suppression.
   - Date- and time-stamp insertion.
+  - Highlighting by putting a blank line before and after a pattern.
 
   Please refer to the ChangeLog file for full details.
 

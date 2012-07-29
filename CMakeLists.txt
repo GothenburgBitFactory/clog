@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 2.8)
 set (HAVE_CMAKE true)
 
 project (clog)
-set (PROJECT_VERSION "1.0.0")
+set (PROJECT_VERSION "1.1.0")
 
 SET (CLOG_MAN3DIR share/man/man3 CACHE STRING "Installation directory for man pages, section 3")
 SET (CLOG_LIBDIR  lib            CACHE STRING "Installation directory for the library")

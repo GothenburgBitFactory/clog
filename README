@@ -44,7 +44,8 @@ The format of the rules is:
 
 The section is simply a way to allow multiple rules sets, so that one .clogrc
 file can serve multiple uses.  The pattern is any supported Standard C Library
-regular expression.  Action must be one of 'line', 'match' or 'suppress'.
+regular expression.  Action must be one of 'line', 'match', 'suppress' or
+'blank'.
 
 Note that there is a default section, called 'default'.  Putting rules in the
 default section means that no section need be specified on the command line.

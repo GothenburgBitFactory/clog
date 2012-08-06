@@ -96,12 +96,6 @@ void applyRules (
     {
       // Modify line accordingly.
       rule->apply (*section, line);
-
-/*
-      if (rule->apply (*section, line) &&
-          stop_at_first_match)
-        return;
-*/
     }
   }
 }

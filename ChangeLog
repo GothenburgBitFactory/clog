@@ -1,3 +1,7 @@
+1.1.0 ()
+ + Supports action 'blank' that adds a preceding and following blank line to a
+   match.
+
 ------ current release ---------------------------
 
 1.0.0 (2012-08-05) <sha1>

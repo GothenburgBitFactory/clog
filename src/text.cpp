@@ -33,7 +33,6 @@
 #include <string>
 #include <strings.h>
 #include <ctype.h>
-#include <util.h>
 #include <text.h>
 
 ////////////////////////////////////////////////////////////////////////////////

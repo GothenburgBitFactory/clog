@@ -8,7 +8,6 @@ add_executable(clog clog.cpp
                     Rule.cpp Rule.h
                     Color.cpp Color.h
                     text.cpp text.h)
-#                    util.cpp util.h)
 
 install (TARGETS clog DESTINATION bin)
 

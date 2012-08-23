@@ -32,6 +32,7 @@
 #include <vector>
 #include <string>
 #include <string.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
 #include <time.h>

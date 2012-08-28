@@ -37,15 +37,15 @@ int main (int argc, char** argv)
 {
 #ifdef NIBBLER_FEATURE_DATE
 #ifdef NIBBLER_FEATURE_REGEX
-  UnitTest t (388);
+  UnitTest t (396);
 #else
-  UnitTest t (364);
+  UnitTest t (372);
 #endif
 #else
 #ifdef NIBBLER_FEATURE_REGEX
-  UnitTest t (338);
+  UnitTest t (346);
 #else
-  UnitTest t (314);
+  UnitTest t (322);
 #endif
 #endif
 
@@ -463,37 +463,27 @@ int main (int argc, char** argv)
     t.ok (n.depleted (),                             "depleted");
 
     n = Nibbler ("a0b1c2d3-e4f5");
-    t.ok (n.getPartialUUID (s),                      "partial uuid [13] found");
-    t.is (s, "a0b1c2d3-e4f5",                        "partial uuid [13] -> correct");
-    t.ok (n.depleted (),                             "depleted");
+    t.notok (n.getPartialUUID (s),                   "partial uuid [13] not found");
+    t.notok (n.depleted (),                          "depleted");
 
     n = Nibbler ("a0b1c2d3-e4f");
-    t.ok (n.getPartialUUID (s),                      "partial uuid [12] found");
-    t.is (s, "a0b1c2d3-e4f",                         "partial uuid [12] -> correct");
-    t.ok (n.depleted (),                             "depleted");
+    t.notok (n.getPartialUUID (s),                   "partial uuid [12] not found");
+    t.notok (n.depleted (),                          "depleted");
 
     n = Nibbler ("a0b1c2d3-e4");
-    t.ok (n.getPartialUUID (s),                      "partial uuid [11] found");
-    t.is (s, "a0b1c2d3-e4",                          "partial uuid [11] -> correct");
-    t.ok (n.depleted (),                             "depleted");
+    t.notok (n.getPartialUUID (s),                   "partial uuid [11] not found");
+    t.notok (n.depleted (),                          "depleted");
 
     n = Nibbler ("a0b1c2d3-e");
-    t.ok (n.getPartialUUID (s),                      "partial uuid [10] found");
-    t.is (s, "a0b1c2d3-e",                           "partial uuid [10] -> correct");
-    t.ok (n.depleted (),                             "depleted");
+    t.notok (n.getPartialUUID (s),                   "partial uuid [10] not found");
+    t.notok (n.depleted (),                          "depleted");
 
     n = Nibbler ("a0b1c2d3-");
-    t.ok (n.getPartialUUID (s),                      "partial uuid [9] found");
-    t.is (s, "a0b1c2d3-",                            "partial uuid [9] -> correct");
-    t.ok (n.depleted (),                             "depleted");
+    t.notok (n.getPartialUUID (s),                   "partial uuid [9] not found");
+    t.notok (n.depleted (),                          "depleted");
 
     n = Nibbler ("a0b1c2d3");
-    t.ok (n.getPartialUUID (s),                      "partial uuid [8] found");
-    t.is (s, "a0b1c2d3",                             "partial uuid [8] -> correct");
-    t.ok (n.depleted (),                             "depleted");
-
-    n = Nibbler ("a0b1c2d");
-    t.notok (n.getPartialUUID (s),                   "partial uuid [7] not found");
+    t.notok (n.getPartialUUID (s),                   "partial uuid [8] not found");
     t.notok (n.depleted (),                          "not depleted");
 
     // bool getDateISO (time_t&);
@@ -553,8 +543,8 @@ int main (int argc, char** argv)
     t.is (dt.day (),     1, "ctor (std::string) -> d");
     t.is (dt.year (), 2008, "ctor (std::string) -> y");
 
-    n = Nibbler ("v01 Tue 2008-01-01");
-    t.ok (n.getDate ("vV a Y-M-D", ti), "vV a Y-M-D ok");
+    n = Nibbler ("w01 Tue 2008-01-01");
+    t.ok (n.getDate ("wV a Y-M-D", ti), "wV a Y-M-D ok");
     dt = Date (ti);
     t.is (dt.month (),   1, "ctor (std::string) -> m");
     t.is (dt.day (),     1, "ctor (std::string) -> d");
@@ -589,6 +579,27 @@ int main (int argc, char** argv)
     t.is (dt.hour (),     12, "ctor (std::string) -> h");
     t.is (dt.minute (),   34, "ctor (std::string) -> N");
     t.is (dt.second (),   56, "ctor (std::string) -> S");
+
+    n = Nibbler ("2010");
+    t.ok (n.getDate ("Y", ti), "Y ok");
+    dt = Date (ti);
+    t.is (dt.month (),     1, "ctor (std::string) -> m");
+    t.is (dt.day (),       1, "ctor (std::string) -> d");
+    t.is (dt.year (),   2010, "ctor (std::string) -> Y");
+    t.is (dt.hour (),      0, "ctor (std::string) -> h");
+    t.is (dt.minute (),    0, "ctor (std::string) -> N");
+    t.is (dt.second (),    0, "ctor (std::string) -> S");
+
+    n = Nibbler ("17:18:19");
+    t.ok (n.getDate ("H:N:S", ti), "H:N:S ok");
+    dt = Date (ti);
+    Date now = Date ();
+    t.is (dt.month (), now.month(), "ctor (std::string) -> m");
+    t.is (dt.day (),     now.day(), "ctor (std::string) -> d");
+    t.is (dt.year (),   now.year(), "ctor (std::string) -> Y");
+    t.is (dt.hour (),           17, "ctor (std::string) -> h");
+    t.is (dt.minute (),         18, "ctor (std::string) -> N");
+    t.is (dt.second (),         19, "ctor (std::string) -> S");
 #endif
 
     // bool getOneOf (const std::vector <std::string>&, std::string&);
@@ -627,6 +638,10 @@ int main (int argc, char** argv)
     t.notok (n.getName (s),       "               '9' getName -> not ok");
     t.ok    (n.skip ('9'),        "                '' skip 9  -> ok");
     t.ok    (n.depleted (),       "depleted");
+
+    n = Nibbler ("entrée");
+    t.ok (n.getName (s), "'entrée' -> ok");
+    t.is (s, "entrée",   "'entrée' -> 'entrée'");
 
     // bool getWord (std::string&);
     t.diag ("Nibbler::getWord");

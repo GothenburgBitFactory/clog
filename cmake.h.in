@@ -20,6 +20,5 @@
 #cmakedefine OPENBSD
 #cmakedefine HAIKU
 #cmakedefine SOLARIS
-#cmakedefine WIN32
 #cmakedefine UNKNOWN
 

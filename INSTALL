@@ -1,7 +1,7 @@
 Installation Instructions
 -------------------------
 
-Please follow the instructions below to build task with cmake.
+Please follow the instructions below to build clog with cmake.
 
 
 Pre-requisites
@@ -38,11 +38,9 @@ These commands are explained below:
 
   4. Builds clog.  This may take a minute.
 
-  5. Optional step that runs the unit tests.  This will take several minutes,
-     during which there will be minimal feedback.  Note that thousands of tests
-     are run, and some of those tests need to introduce a delay between commands
-     which explains the lengthy time.  On completion, will report the number of
-     passing and failing tests.  There should be zero failing tests.
+  5. Optional step that runs the unit tests.  On completion, will report the
+     number of passing and failing tests.  There should be zero failing tests.
+     If you see failing tests, please report this.
 
   6. Installs the program, documentation and other data files.
 

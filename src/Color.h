@@ -2,7 +2,6 @@
 // clog - colorized log tail
 //
 // Copyright 2010-2012, Paul Beckingham, Federico Hernandez.
-// All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +29,8 @@
 #define INCLUDED_COLOR
 
 #include <string>
+
+#define FEATURE_COLOR 1
 
 ////////////////////////////////////////////////////////////////////////////////
 #define _COLOR_INVERSE   0x00400000  // Inverse attribute.
@@ -66,7 +67,7 @@ public:
   static std::string colorize (const std::string&, const std::string&);
   static std::string strip (const std::string&);
 
-  bool nontrivial ();
+  bool nontrivial () const;
 
 private:
   int find (const std::string&);

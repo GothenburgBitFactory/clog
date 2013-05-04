@@ -2,7 +2,6 @@
 // clog - colorized log tail
 //
 // Copyright 2010-2012, Paul Beckingham, Federico Hernandez.
-// All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +27,8 @@
 
 #ifndef INCLUDED_NIBBLER
 #define INCLUDED_NIBBLER
+
+#include <cmake.h>
 
 #define NIBBLER_FEATURE_DATE
 #undef  NIBBLER_FEATURE_DATE
@@ -64,6 +65,9 @@ public:
   bool getN (const int, std::string&);
   bool getQuoted (char, std::string&, bool quote = false);
   bool getDigit (int&);
+  bool getDigit6 (int&);
+  bool getDigit4 (int&);
+  bool getDigit2 (int&);
   bool getInt (int&);
   bool getHex (int&);
   bool getUnsignedInt (int&);

@@ -2,7 +2,6 @@
 // clog - colorized log tail
 //
 // Copyright 2010-2012, Paul Beckingham, Federico Hernandez.
-// All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,6 +38,7 @@
 #include <RX.h>
 #endif
 #include <cmake.h>
+#include <util.h>
 
 static const char*        _uuid_pattern    = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
 static const unsigned int _uuid_min_length = 14;
@@ -289,6 +289,69 @@ bool Nibbler::getDigit (int& result)
   {
     result = _input[_cursor++] - '0';
     return true;
+  }
+
+  return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+bool Nibbler::getDigit6 (int& result)
+{
+  std::string::size_type i = _cursor;
+  if (i < _length &&
+      _length - i >= 6)
+  {
+    if (isdigit (_input[i + 0]) &&
+        isdigit (_input[i + 1]) &&
+        isdigit (_input[i + 2]) &&
+        isdigit (_input[i + 3]) &&
+        isdigit (_input[i + 4]) &&
+        isdigit (_input[i + 5]))
+    {
+      result = strtoimax (_input.substr (_cursor, 6).c_str (), NULL, 10);
+      _cursor += 6;
+      return true;
+    }
+  }
+
+  return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+bool Nibbler::getDigit4 (int& result)
+{
+  std::string::size_type i = _cursor;
+  if (i < _length &&
+      _length - i >= 4)
+  {
+    if (isdigit (_input[i + 0]) &&
+        isdigit (_input[i + 1]) &&
+        isdigit (_input[i + 2]) &&
+        isdigit (_input[i + 3]))
+    {
+      result = strtoimax (_input.substr (_cursor, 4).c_str (), NULL, 10);
+      _cursor += 4;
+      return true;
+    }
+  }
+
+  return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+bool Nibbler::getDigit2 (int& result)
+{
+  std::string::size_type i = _cursor;
+  if (i < _length &&
+      _length - i >= 2)
+  {
+    if (isdigit (_input[i + 0]) &&
+        isdigit (_input[i + 1]))
+    {
+      result = strtoimax (_input.substr (_cursor, 2).c_str (), NULL, 10);
+      _cursor += 2;
+      return true;
+    }
   }
 
   return false;
@@ -868,28 +931,28 @@ bool Nibbler::getDate (const std::string& format, time_t& t)
   // that lack Y/y). If even 'second' is undefined, then the date is parsed as
   // now.
   if (year == -1)
-      {
+  {
     Date now = Date ();
     year = now.year ();
     if (month == -1)
-      {
+    {
       month = now.month ();
       if (day == -1)
       {
         day = now.day ();
         if (hour == -1)
-      {
+        {
           hour = now.hour ();
           if (minute == -1)
-      {
+          {
             minute = now.minute ();
             if (second == -1)
               second = now.second ();
+          }
+        }
       }
     }
   }
-}
-    }
 
   // Put all remaining undefined date variables to their default values (0 or
   // 1).
@@ -901,7 +964,7 @@ bool Nibbler::getDate (const std::string& format, time_t& t)
 
   // Check that values are correct
   if (! Date::valid (month, day, year, hour, minute, second))
-        return false;
+    return false;
 
   // Convert to epoch.
   struct tm tms = {0};

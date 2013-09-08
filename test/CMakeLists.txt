@@ -6,8 +6,9 @@ include_directories (${CMAKE_SOURCE_DIR}
 
 set (test_SRCS color.t nibbler.t)
 
-add_custom_target (test ./run_all DEPENDS ${test_SRCS}
-                                  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+add_custom_target (test ./run_all --verbose
+                        DEPENDS ${test_SRCS}
+                        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
 
 add_custom_target (build_tests DEPENDS ${test_SRCS}
                                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)

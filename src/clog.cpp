@@ -158,7 +158,7 @@ int main (int argc, char** argv)
                   << "unknown"
 #endif
                   << "\n"
-                  << "Copyright (C) 2010-2012 Göteborg Bit Factory\n"
+                  << "Copyright (C) 2010-2013 Göteborg Bit Factory\n"
                   << "\n"
                   << "Clog may be copied only under the terms of the MIT "
                      "license, which may be found in the source kit.\n"

@@ -1,6 +1,6 @@
 ------ current release ---------------------------
 
-1.1.0 (2013-09-10)
+1.1.0 (2013-09-10) 3feae394c0407954e7eb345ffdcc29ae09e23ba6
  + Supports action 'blank' that adds a preceding and following blank line to a
    match.
 

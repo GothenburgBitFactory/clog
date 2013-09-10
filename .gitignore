@@ -5,4 +5,4 @@ Makefile
 install_manifest.txt
 cmake.h
 commit.h
-
+_CPack_Packages

@@ -60,9 +60,8 @@ simply run:
 Clog Build Notes
 ----------------
 
-Clog 1.0.0 has dependencies that are detected by cmake in almost all cases, but
-there are situations and operating systems that mean you will need to offer a
-little help.
+Clog has dependencies that are detected by cmake in almost all cases, but there
+are situations and operating systems that mean you will need to offer a little help.
 
 If clog will not build on your system, first take a look at the Operating System
 notes below.  If this doesn't help, then go to the Troubleshooting section,

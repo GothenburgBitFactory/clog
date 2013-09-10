@@ -1,11 +1,11 @@
 Clog has some basic features, for example, it can prepend timestamps to text:
 
 $ head -5 hamlet | clog --date
-2012-04-11 FRANCISCO at his post. Enter to him BERNARDO
-2012-04-11 BERNARDO Whos there?
-2012-04-11 FRANCISCO Nay, answer me: stand, and unfold yourself.
-2012-04-11 BERNARDO Long live the king.
-2012-04-11 FRANCISCO Bernardo?
+2013-04-11 FRANCISCO at his post. Enter to him BERNARDO
+2013-04-11 BERNARDO Whos there?
+2013-04-11 FRANCISCO Nay, answer me: stand, and unfold yourself.
+2013-04-11 BERNARDO Long live the king.
+2013-04-11 FRANCISCO Bernardo?
 
 $ head -5 hamlet | clog --time
 21:20:17 FRANCISCO at his post. Enter to him BERNARDO
@@ -15,9 +15,9 @@ $ head -5 hamlet | clog --time
 21:20:17 FRANCISCO Bernardo?
 
 $ head -5 hamlet | clog --date --time
-2012-04-11 21:20:22 FRANCISCO at his post. Enter to him BERNARDO
-2012-04-11 21:20:22 BERNARDO Whos there?
-2012-04-11 21:20:22 FRANCISCO Nay, answer me: stand, and unfold yourself.
-2012-04-11 21:20:22 BERNARDO Long live the king.
-2012-04-11 21:20:22 FRANCISCO Bernardo?
+2013-04-11 21:20:22 FRANCISCO at his post. Enter to him BERNARDO
+2013-04-11 21:20:22 BERNARDO Whos there?
+2013-04-11 21:20:22 FRANCISCO Nay, answer me: stand, and unfold yourself.
+2013-04-11 21:20:22 BERNARDO Long live the king.
+2013-04-11 21:20:22 FRANCISCO Bernardo?
 

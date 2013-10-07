@@ -18,17 +18,17 @@ Basic Installation
 
 Briefly, these shell commands will unpack, build and install clog:
 
-  $ tar xzf clog-X.Y.Z.tar.gz                     [1]
-  $ cd clog-X.Y.Z                                 [2]
+  $ tar xzf clog-1.2.0.tar.gz                     [1]
+  $ cd clog-1.2.0                                 [2]
   $ cmake .                                       [3]
   $ make                                          [4]
   $ make test                                     [5]
   $ sudo make install                             [6]
-  $ cd .. ; rm -r clog-X.Y.Z                      [7]
+  $ cd .. ; rm -r clog-1.2.0                      [7]
 
 These commands are explained below:
 
-  1. Unpacks the source tarball.  This creates the directory clog-X.Y.Z,
+  1. Unpacks the source tarball.  This creates the directory clog-1.2.0,
      containing all the code.
 
   2. Change directory to the root of the distribution.

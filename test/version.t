@@ -2,7 +2,7 @@
 ################################################################################
 ## clog - colorized log tail
 ##
-## Copyright 2010-2013, Paul Beckingham, Federico Hernandez.
+## Copyright 2010 - 2014, Paul Beckingham, Federico Hernandez.
 ##
 ## Permission is hereby granted, free of charge, to any person obtaining a copy
 ## of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ use Test::More tests => 1;
 my $year = (localtime (time))[5] + 1900;
 
 my $output = qx{../src/clog --version 2>&1};
-like ($output, qr/Copyright \(C\) \d{4}-$year/, 'Copyright is current');
+like ($output, qr/Copyright \(C\) \d{4} - $year/, 'Copyright is current');
 
 exit 0;
 

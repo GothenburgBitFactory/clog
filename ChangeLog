@@ -2,6 +2,8 @@
 
 1.2.0 ()
 - Updated URLs.
+- TW-1296 make test/run_all exit with non-zero code if a test fail (thanks to
+          Jakub Wilk).
 
 ------ old releases ------------------------------
 

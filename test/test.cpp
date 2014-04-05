@@ -1,7 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - colorized log tail
 //
-// Copyright 2010 - 2014, Paul Beckingham, Federico Hernandez.
+// Copyright 2006 - 2014, Paul Beckingham, Federico Hernandez.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +28,7 @@
 #include <iomanip>
 #include <string.h>
 #include <math.h>
+#include <stdlib.h>
 #include <test.h>
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -85,6 +85,7 @@ UnitTest::~UnitTest ()
             << " skipped. "
             << std::setprecision (3) << percentPassed
             << "% passed.\n";
+  exit (_failed > 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

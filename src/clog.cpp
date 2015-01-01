@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // clog - colorized log tail
 //
-// Copyright 2010 - 2014, Paul Beckingham, Federico Hernandez.
+// Copyright 2010 - 2015, Paul Beckingham, Federico Hernandez.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -157,7 +157,7 @@ int main (int argc, char** argv)
                   << "unknown"
 #endif
                   << "\n"
-                  << "Copyright (C) 2010 - 2014 Göteborg Bit Factory\n"
+                  << "Copyright (C) 2010 - 2015 Göteborg Bit Factory\n"
                   << "\n"
                   << "Clog may be copied only under the terms of the MIT "
                      "license, which may be found in the source kit.\n"

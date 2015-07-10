@@ -1,7 +1,7 @@
 
 New Features in clog 1.2.0
 
-  - 
+  - Fixes bug where blank lines in the input are silently eaten.
 
   Please refer to the ChangeLog file for full details.
 
@@ -9,12 +9,13 @@ New Features in clog 1.2.0
 
 Clog has been built and tested on the following configurations:
 
-  * OS X 10.8 Mountain Lion and 10.9 Mavericks
-  * Fedora 19 Schrodinger's Cat
-  * Ubuntu 10.04 Lucid Lynx, 13.04 Raring Ringtail and 13.10 Saucy Salamander
-  * Debian 7.0 Wheezy (stable) and 6.0 Squeeze (oldstable)
-  * FreeBSD 9
-  * Cygwin 1.7
+  * OS X
+  * Fedora
+  * Ubuntu
+  * Debian
+  * Arch
+  * FreeBSD
+  * Cygwin
 
 ---
 

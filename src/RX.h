@@ -1,5 +1,4 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - colorized log tail
 //
 // Copyright 2010 - 2015, Paul Beckingham, Federico Hernandez.
 //
@@ -35,11 +34,7 @@
 class RX
 {
 public:
-  RX ();
   RX (const std::string&, bool caseSensitive = true);
-  RX (const RX&);
-  RX& operator= (const RX&);
-  bool operator== (const RX&) const;
   ~RX ();
 
   bool match (const std::string&);

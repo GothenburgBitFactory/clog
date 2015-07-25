@@ -1,5 +1,4 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - colorized log tail
 //
 // Copyright 2010 - 2015, Paul Beckingham, Federico Hernandez.
 //
@@ -25,19 +24,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <cmake.h>
 #include <stdlib.h>
 #include <string.h>
 #include <RX.h>
-
-//#define _POSIX_C_SOURCE 1      // Forgot why this is here.  Moving on...
-
-////////////////////////////////////////////////////////////////////////////////
-RX::RX ()
-: _compiled (false)
-, _pattern ("")
-, _case_sensitive (true)
-{
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 RX::RX (
@@ -48,34 +38,6 @@ RX::RX (
 , _case_sensitive (case_sensitive)
 {
   compile ();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-RX::RX (const RX& other)
-: _compiled (false)
-, _pattern (other._pattern)
-, _case_sensitive (other._case_sensitive)
-{
-}
-
-////////////////////////////////////////////////////////////////////////////////
-RX& RX::operator= (const RX& other)
-{
-  if (this != &other)
-  {
-    _compiled       = false;
-    _pattern        = other._pattern;
-    _case_sensitive = other._case_sensitive;
-  }
-
-  return *this;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-bool RX::operator== (const RX& other) const
-{
-  return _pattern        == other._pattern &&
-         _case_sensitive == other._case_sensitive;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +56,7 @@ void RX::compile ()
 
     int result;
     if ((result = regcomp (&_regex, _pattern.c_str (),
-                           REG_EXTENDED | REG_NEWLINE |
+                           REG_ENHANCED | REG_EXTENDED | REG_NEWLINE |
                            (_case_sensitive ? 0 : REG_ICASE))) != 0)
     {
       char message[256];

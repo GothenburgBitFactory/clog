@@ -1,7 +1,7 @@
 
-New Features in clog 1.2.0
+New Features in clog 1.2.1
 
-  - Fixes bug where blank lines in the input are silently eaten.
+  -
 
   Please refer to the ChangeLog file for full details.
 

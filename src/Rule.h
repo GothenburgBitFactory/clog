@@ -36,9 +36,6 @@ class Rule
 {
 public:
   Rule (const std::string&);
-  Rule (const Rule&);
-  virtual ~Rule ();
-  Rule& operator= (const Rule&);
   bool apply (const std::string&, std::string&);
 
 public:

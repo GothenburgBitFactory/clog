@@ -135,39 +135,6 @@ Rule::Rule (const std::string& line)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-Rule::Rule (const Rule& other)
-{
-  if (this != &other)
-  {
-    _section  = other._section;
-    _color    = other._color;
-    _context  = other._context;
-    _rx       = other._rx;
-    _fragment = other._fragment;
-  }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-Rule::~Rule ()
-{
-}
-
-////////////////////////////////////////////////////////////////////////////////
-Rule& Rule::operator= (const Rule& other)
-{
-  if (this != &other)
-  {
-    _section  = other._section;
-    _color    = other._color;
-    _context  = other._context;
-    _rx       = other._rx;
-    _fragment = other._fragment;
-  }
-
-  return *this;
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // There are two kinds of matching:
 //   - regex     (when _fragment is     "")
 //   - substring (when _fragment is not "")

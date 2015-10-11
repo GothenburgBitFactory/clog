@@ -6,7 +6,7 @@
 
 ------ old releases ------------------------------
 
-1.2.0 (48719a21fda4e29113ce8b1aa29a568f073f0e65)
+1.2.0 (2015-09-26) 48719a21fda4e29113ce8b1aa29a568f073f0e65
 - TW-1296 make test/run_all exit with non-zero code if a test fail (thanks to
           Jakub Wilk).
 - Fixed bug whereby blank input lines always got eaten (thanks to vkrishn).

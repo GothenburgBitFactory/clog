@@ -1,6 +1,8 @@
 ------ current release ---------------------------
 
 1.2.1 ()
+- CL-8 clog 1.2.0 fails to build
+       Thanks to Rainer Müller
 
 ------ old releases ------------------------------
 

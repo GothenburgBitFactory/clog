@@ -25,19 +25,19 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <cmake.h>
+#include <Nibbler.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
 #include <inttypes.h>
-#include <Nibbler.h>
 #ifdef NIBBLER_FEATURE_DATE
 #include <Date.h>
 #endif
 #ifdef NIBBLER_FEATURE_REGEX
 #include <RX.h>
 #endif
-#include <cmake.h>
 
 static const char*        _uuid_pattern    = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
 static const unsigned int _uuid_min_length = 14;
@@ -307,7 +307,7 @@ bool Nibbler::getDigit6 (int& result)
         isdigit (_input[i + 4]) &&
         isdigit (_input[i + 5]))
     {
-      result = strtoimax (_input.substr (_cursor, 6).c_str (), NULL, 10);
+      result = strtoimax (_input.substr (_cursor, 6).c_str (), nullptr, 10);
       _cursor += 6;
       return true;
     }
@@ -328,7 +328,7 @@ bool Nibbler::getDigit4 (int& result)
         isdigit (_input[i + 2]) &&
         isdigit (_input[i + 3]))
     {
-      result = strtoimax (_input.substr (_cursor, 4).c_str (), NULL, 10);
+      result = strtoimax (_input.substr (_cursor, 4).c_str (), nullptr, 10);
       _cursor += 4;
       return true;
     }
@@ -347,7 +347,7 @@ bool Nibbler::getDigit2 (int& result)
     if (isdigit (_input[i + 0]) &&
         isdigit (_input[i + 1]))
     {
-      result = strtoimax (_input.substr (_cursor, 2).c_str (), NULL, 10);
+      result = strtoimax (_input.substr (_cursor, 2).c_str (), nullptr, 10);
       _cursor += 2;
       return true;
     }
@@ -375,7 +375,7 @@ bool Nibbler::getInt (int& result)
 
   if (i > _cursor)
   {
-    result = strtoimax (_input.substr (_cursor, i - _cursor).c_str (), NULL, 10);
+    result = strtoimax (_input.substr (_cursor, i - _cursor).c_str (), nullptr, 10);
     _cursor = i;
     return true;
   }
@@ -402,7 +402,7 @@ bool Nibbler::getHex (int& result)
 
   if (i > _cursor)
   {
-    result = strtoimax (_input.substr (_cursor, i - _cursor).c_str (), NULL, 16);
+    result = strtoimax (_input.substr (_cursor, i - _cursor).c_str (), nullptr, 16);
     _cursor = i;
     return true;
   }
@@ -420,7 +420,7 @@ bool Nibbler::getUnsignedInt (int& result)
 
   if (i > _cursor)
   {
-    result = strtoimax (_input.substr (_cursor, i - _cursor).c_str (), NULL, 10);
+    result = strtoimax (_input.substr (_cursor, i - _cursor).c_str (), nullptr, 10);
     _cursor = i;
     return true;
   }
@@ -509,7 +509,7 @@ bool Nibbler::getNumber (double &result)
   isnumber = getNumber (s);
   if (isnumber)
   {
-    result = strtof (s.c_str (), NULL);
+    result = strtof (s.c_str (), nullptr);
   }
   return isnumber;
 }
@@ -566,7 +566,7 @@ bool Nibbler::getUnsignedNumber (double& result)
         while (i < _length && isdigit (_input[i]))
           ++i;
 
-        result = strtof (_input.substr (_cursor, i - _cursor).c_str (), NULL);
+        result = strtof (_input.substr (_cursor, i - _cursor).c_str (), nullptr);
         _cursor = i;
         return true;
       }
@@ -574,7 +574,7 @@ bool Nibbler::getUnsignedNumber (double& result)
       return false;
     }
 
-    result = strtof (_input.substr (_cursor, i - _cursor).c_str (), NULL);
+    result = strtof (_input.substr (_cursor, i - _cursor).c_str (), nullptr);
     _cursor = i;
     return true;
   }

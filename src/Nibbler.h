@@ -38,6 +38,7 @@
 
 #include <string>
 #include <vector>
+#include <time.h>
 
 class Nibbler
 {

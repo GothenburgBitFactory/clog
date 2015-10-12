@@ -30,7 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <time.h>
 #include <inttypes.h>
 #ifdef NIBBLER_FEATURE_DATE
 #include <Date.h>

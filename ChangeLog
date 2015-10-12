@@ -1,6 +1,6 @@
 ------ current release ---------------------------
 
-1.2.1 ()
+1.2.1 (2015-10-12) 33c912809e13f24801d273614f9d6dfc14b1ef41
 - CL-8 clog 1.2.0 fails to build
        Thanks to Rainer Müller
 

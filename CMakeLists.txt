@@ -68,16 +68,8 @@ if (NETBSD)
    set (CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif (NETBSD)
 
-if (FREEBSD)
-SET (TASK_MAN1DIR man/man1 CACHE STRING "Installation directory for man pages, section 1")
-SET (TASK_MAN5DIR man/man5 CACHE STRING "Installation directory for man pages, section 5")
-else (FREEBSD)
-SET (TASK_MAN1DIR share/man/man1 CACHE STRING "Installation directory for man pages, section 1")
-SET (TASK_MAN5DIR share/man/man5 CACHE STRING "Installation directory for man pages, section 5")
-endif (FREEBSD)
-SET (TASK_DOCDIR  share/doc/task CACHE STRING "Installation directory for doc files")
-SET (TASK_RCDIR "${TASK_DOCDIR}/rc" CACHE STRING "Installation directory for configuration files")
-SET (TASK_BINDIR  bin            CACHE STRING "Installation directory for the binary")
+SET (CLOG_DOCDIR  share/doc/clog CACHE STRING "Installation directory for doc files")
+SET (CLOG_BINDIR  bin            CACHE STRING "Installation directory for the binary")
 
 message ("-- Looking for SHA1 references")
 if (EXISTS ${CMAKE_SOURCE_DIR}/.git/index)
@@ -111,7 +103,7 @@ endif (EXISTS ${CMAKE_SOURCE_DIR}/test)
 
 set (doc_FILES NEWS ChangeLog README INSTALL AUTHORS COPYING)
 foreach (doc_FILE ${doc_FILES})
-  install (FILES ${doc_FILE}  DESTINATION ${CLOG_DOCDIR})
+  install (FILES ${doc_FILE} DESTINATION ${CLOG_DOCDIR})
 endforeach (doc_FILE)
 
 # ---

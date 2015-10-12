@@ -15,10 +15,12 @@
 /* Compiling platform */
 #cmakedefine LINUX
 #cmakedefine DARWIN
-#cmakedefine CYGWIN
+#cmakedefine KFREEBSD
 #cmakedefine FREEBSD
 #cmakedefine OPENBSD
-#cmakedefine HAIKU
+#cmakedefine NETBSD
 #cmakedefine SOLARIS
+#cmakedefine GNUHURD
+#cmakedefine CYGWIN
 #cmakedefine UNKNOWN
 

@@ -1,17 +1,41 @@
 cmake_minimum_required (VERSION 2.8)
+set(CMAKE_LEGACY_CYGWIN_WIN32 0) # Remove when CMake >= 2.8.4 is required
 
 set (HAVE_CMAKE true)
 
 project (clog)
 set (PROJECT_VERSION "1.3.0")
 
-SET (CLOG_MAN3DIR share/man/man3 CACHE STRING "Installation directory for man pages, section 3")
-SET (CLOG_DOCDIR  share/doc/clog CACHE STRING "Installation directory for doc files")
+message ("CMAKE_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}")
+
+include (CheckCXXCompilerFlag)
+
+# NOTE: If we are to actually use C++11 features, we should either require
+#       a compiler that supports the -std=c++11 flag or check for the
+#       features used.
+#       Relying on -std=c++0x or even -std=gnu++0x is highly volatile.
+
+CHECK_CXX_COMPILER_FLAG("-std=c++11" _HAS_CXX11)
+CHECK_CXX_COMPILER_FLAG("-std=c++0x" _HAS_CXX0X)
+CHECK_CXX_COMPILER_FLAG("-std=gnu++0x" _HAS_GNU0X)
+
+if (_HAS_CXX11)
+  set (_CXX11_FLAGS "-std=c++11")
+elseif (_HAS_CXX0X)
+  message (WARNING "Enabling -std=c++0x draft compile flag. Your compiler does not support the standard '-std=c++11' option.  Consider upgrading.")
+  set (_CXX11_FLAGS "-std=c++0x")
+elseif (_HAS_GNU0X)
+  message (WARNING "Enabling -std=gnu++0x draft compile flag. Your compiler does not support the standard '-std=c++11' option. Consider upgrading.")
+  set (_CXX11_FLAGS "-std=gnu++0x")
+else (_HAS_CXX11)
+ message (FATAL_ERROR "C++11 support missing. Try upgrading your C++ compiler. If you have a good reason for using an outdated compiler, please let us know at support@taskwarrior.org.")
+endif (_HAS_CXX11)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set (LINUX true)
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set (DARWIN true)
+  set (_CXX11_FLAGS "${_CXX11_FLAGS} -stdlib=libc++")
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "kFreeBSD")
   set (KFREEBSD true)
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
@@ -24,9 +48,36 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
   set (SOLARIS true)
 elseif (${CMAKE_SYSTEM_NAME} STREQUAL "GNU")
   set (GNUHURD true)
+elseif (${CMAKE_SYSTEM_NAME} STREQUAL "CYGWIN")
+  set (CYGWIN true)
+  # NOTE: Not setting -std=gnu++0x leads to compile errors even with
+  #       GCC 4.8.3, and debugging those leads to insanity. Adding this
+  #       workaround instead of fixing Cygwin.
+  set (_CXX11_FLAGS "-std=gnu++0x")
 else (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set (UNKNOWN true)
 endif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+set (CMAKE_CXX_FLAGS "${_CXX11_FLAGS} ${CMAKE_CXX_FLAGS}")
+
+set (CMAKE_CXX_FLAGS "-Wall -Wextra -Wsign-compare -Wreturn-type ${CMAKE_CXX_FLAGS}")
+
+if (NETBSD)
+   # Since readline, etc likely to be in /usr/pkg/lib, not standard library
+   # Otherwise will remove links during install
+   set (CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif (NETBSD)
+
+if (FREEBSD)
+SET (TASK_MAN1DIR man/man1 CACHE STRING "Installation directory for man pages, section 1")
+SET (TASK_MAN5DIR man/man5 CACHE STRING "Installation directory for man pages, section 5")
+else (FREEBSD)
+SET (TASK_MAN1DIR share/man/man1 CACHE STRING "Installation directory for man pages, section 1")
+SET (TASK_MAN5DIR share/man/man5 CACHE STRING "Installation directory for man pages, section 5")
+endif (FREEBSD)
+SET (TASK_DOCDIR  share/doc/task CACHE STRING "Installation directory for doc files")
+SET (TASK_RCDIR "${TASK_DOCDIR}/rc" CACHE STRING "Installation directory for configuration files")
+SET (TASK_BINDIR  bin            CACHE STRING "Installation directory for the binary")
 
 message ("-- Looking for SHA1 references")
 if (EXISTS ${CMAKE_SOURCE_DIR}/.git/index)
@@ -41,7 +92,7 @@ endif (EXISTS ${CMAKE_SOURCE_DIR}/.git/index)
 
 set (PACKAGE "${PROJECT_NAME}")
 set (VERSION "${PROJECT_VERSION}")
-set (PACKAGE_BUGREPORT "support@yootabory.com")
+set (PACKAGE_BUGREPORT "support@tasktools.org")
 set (PACKAGE_NAME "${PACKAGE}")
 set (PACKAGE_TARNAME "${PACKAGE}")
 set (PACKAGE_VERSION "${VERSION}")
@@ -54,9 +105,9 @@ configure_file (
 
 add_subdirectory (src)
 add_subdirectory (doc)
-if (EXISTS test)
+if (EXISTS ${CMAKE_SOURCE_DIR}/test)
   add_subdirectory (test EXCLUDE_FROM_ALL)
-endif (EXISTS test)
+endif (EXISTS ${CMAKE_SOURCE_DIR}/test)
 
 set (doc_FILES NEWS ChangeLog README INSTALL AUTHORS COPYING)
 foreach (doc_FILE ${doc_FILES})
@@ -70,5 +121,5 @@ set (CPACK_SOURCE_PACKAGE_FILE_NAME ${PACKAGE_NAME}-${PACKAGE_VERSION})
 set (CPACK_SOURCE_IGNORE_FILES  "CMakeCache" "CMakeFiles" "CPackConfig" "CPackSourceConfig"
                                 "_CPack_Packages" "cmake_install" "install_manifest"
                                 "Makefile$" "test"
-                                "/\\.gitignore" "/\\.git/" "swp$")
+                                "/\\\\.gitignore" "/\\\\.git/" "swp$")
 include (CPack)

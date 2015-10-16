@@ -29,7 +29,7 @@
 #include <RX.h>
 #include <test.h>
 
-int main (int argc, char** argv)
+int main (int, char**)
 {
   UnitTest ut (26);
 

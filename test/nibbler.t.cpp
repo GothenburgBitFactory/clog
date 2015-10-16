@@ -32,7 +32,7 @@
 #include <test.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-int main (int argc, char** argv)
+int main (int, char**)
 {
 #ifdef NIBBLER_FEATURE_DATE
 #ifdef NIBBLER_FEATURE_REGEX

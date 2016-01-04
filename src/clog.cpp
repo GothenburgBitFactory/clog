@@ -1,5 +1,4 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - colorized log tail
 //
 // Copyright 2010 - 2016, Paul Beckingham, Federico Hernandez.
 //
@@ -61,7 +60,7 @@ bool loadRules (const std::string& file, std::vector <Rule>& rules)
     {
       // Remove comments.
       if ((comment = line.find ('#')) != std::string::npos)
-        line = line.substr (0, comment);
+        line.resize (comment);
 
       // Process each non-trivial line as a rule.
       if (line.length () > 1)

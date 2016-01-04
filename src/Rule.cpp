@@ -1,5 +1,4 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - colorized log tail
 //
 // Copyright 2010 - 2016, Paul Beckingham, Federico Hernandez.
 //
@@ -60,28 +59,27 @@ Rule::Rule (const std::string& line)
       std::string color_name;
       std::vector <std::string> words;
       split (words, rest, ' ');
-      std::vector <std::string>::iterator i;
-      for (i = words.begin (); i != words.end (); ++i)
+      for (auto& word : words)
       {
-        if (i->length ())
+        if (word.length ())
         {
-               if (*i == "line")      _context = *i;
-          else if (*i == "match")     _context = *i;
-          else if (*i == "suppress")  _context = *i;
-          else if (*i == "blank")     _context = *i;
+               if (word == "line")      _context = word;
+          else if (word == "match")     _context = word;
+          else if (word == "suppress")  _context = word;
+          else if (word == "blank")     _context = word;
           else
           {
             if (color_name.length ())
               color_name += " ";
 
-            color_name += *i;
+            color_name += word;
           }
         }
       }
 
       _color = Color (color_name);
 
-      // Now for "match" context patterns, add an enclosing ( ... ) is not
+      // Now for "match" context patterns, add an enclosing ( ... ) if not
       // already present.
       if (_context == "match")
         if (pattern.find ('(') == std::string::npos)
@@ -104,22 +102,21 @@ Rule::Rule (const std::string& line)
       std::string color_name;
       std::vector <std::string> words;
       split (words, rest, ' ');
-      std::vector <std::string>::iterator i;
-      for (i = words.begin (); i != words.end (); ++i)
+      for (auto& word : words)
       {
-        if (i->length ())
+        if (word.length ())
         {
-               if (*i == "line")      _context = *i;
-          else if (*i == "match")     _context = *i;
-          else if (*i == "suppress")  _context = *i;
-          else if (*i == "blank")     _context = *i;
+               if (word == "line")      _context = word;
+          else if (word == "match")     _context = word;
+          else if (word == "suppress")  _context = word;
+          else if (word == "blank")     _context = word;
           // TODO Support context "datetime", "time"
           else
           {
             if (color_name.length ())
               color_name += " ";
 
-            color_name += *i;
+            color_name += word;
           }
         }
       }

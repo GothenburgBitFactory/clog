@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2010 - 2016, Paul Beckingham, Federico Hernandez.
+// Copyright 2006 - 2016, Paul Beckingham, Federico Hernandez.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -85,7 +85,7 @@ void RX::compile ()
 
     int result;
     if ((result = regcomp (&_regex, _pattern.c_str (),
-#ifdef DARWIN
+#if defined REG_ENHANCED
                            REG_ENHANCED | REG_EXTENDED | REG_NEWLINE |
 #else
                            REG_EXTENDED | REG_NEWLINE |

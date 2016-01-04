@@ -1,6 +1,5 @@
 #! /usr/bin/perl
 ################################################################################
-## clog - colorized log tail
 ##
 ## Copyright 2010 - 2016, Paul Beckingham, Federico Hernandez.
 ##

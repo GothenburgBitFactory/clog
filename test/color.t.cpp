@@ -1,7 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-// clog - colorized log tail
 //
-// Copyright 2010 - 2016, Paul Beckingham, Federico Hernandez.
+// Copyright 2006 - 2016, Paul Beckingham, Federico Hernandez.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,15 +24,16 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <cmake.h>
 #include <iostream>
-#include <stdio.h>
+#include <stdlib.h>
 #include <Color.h>
 #include <test.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 int main (int, char**)
 {
-  UnitTest t (1036);
+  UnitTest t (40 + 256 + 256 + 6*6*6 + 6*6*6 + 1 + 24 + 24 + 3);
 
   // Names matched to values.
   t.is ((int) Color (""),        (int) Color (Color::nocolor), "''        == Color::nocolor");

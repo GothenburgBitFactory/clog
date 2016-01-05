@@ -26,7 +26,8 @@
 
 #include <cmake.h>
 #include <iostream>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <Color.h>
 #include <test.h>
 

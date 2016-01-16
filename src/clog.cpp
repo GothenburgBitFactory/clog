@@ -209,26 +209,30 @@ int main (int argc, char** argv)
       std::string line;
       while (getline (std::cin, line)) // Strips \n
       {
+        auto length = line.length ();
         applyRules (rules, sections, line);
 
-        if (prepend_date || prepend_time)
+        if (line.length () || line.length () == length)
         {
-          time_t current;
-          time (&current);
-          struct tm* t = localtime (&current);
+          if (prepend_date || prepend_time)
+          {
+            time_t current;
+            time (&current);
+            struct tm* t = localtime (&current);
 
-          if (prepend_date)
-            std::cout << t->tm_year + 1900 << '-'
-                      << std::setw (2) << std::setfill ('0') << t->tm_mon + 1 << '-'
-                      << std::setw (2) << std::setfill ('0') << t->tm_mday    << ' ';
+            if (prepend_date)
+              std::cout << t->tm_year + 1900 << '-'
+                        << std::setw (2) << std::setfill ('0') << t->tm_mon + 1 << '-'
+                        << std::setw (2) << std::setfill ('0') << t->tm_mday    << ' ';
 
-          if (prepend_time)
-            std::cout << std::setw (2) << std::setfill ('0') << t->tm_hour << ':'
-                      << std::setw (2) << std::setfill ('0') << t->tm_min  << ':'
-                      << std::setw (2) << std::setfill ('0') << t->tm_sec  << ' ';
+            if (prepend_time)
+              std::cout << std::setw (2) << std::setfill ('0') << t->tm_hour << ':'
+                        << std::setw (2) << std::setfill ('0') << t->tm_min  << ':'
+                        << std::setw (2) << std::setfill ('0') << t->tm_sec  << ' ';
+          }
+
+          std::cout << line << std::endl;
         }
-
-        std::cout << line << std::endl;
       }
     }
     else

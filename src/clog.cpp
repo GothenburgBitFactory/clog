@@ -30,17 +30,17 @@
 #ifdef FREEBSD
 #define _WITH_GETLINE
 #endif
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <vector>
 #include <string>
-#include <string.h>
+#include <cstring>
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
-#include <time.h>
+#include <ctime>
 #include <Rule.h>
 
 ////////////////////////////////////////////////////////////////////////////////

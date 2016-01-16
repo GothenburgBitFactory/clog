@@ -29,7 +29,6 @@
 
 #include <string>
 
-////////////////////////////////////////////////////////////////////////////////
 #define _COLOR_INVERSE   0x00400000  // Inverse attribute.
 #define _COLOR_256       0x00200000  // 256-color mode.
 #define _COLOR_HASBG     0x00100000  // Has background color (all values taken).
@@ -51,17 +50,15 @@ public:
   Color (const std::string&);                   // "red on bright black"
   Color (color_id);                             // fg.
   Color (color_id, color_id, bool, bool, bool); // fg, bg, underline, bold, bright
-  ~Color ();
-  Color& operator= (const Color&);
   operator std::string () const;
   operator int () const;
 
   void upgrade ();
   void blend (const Color&);
 
-  std::string colorize (const std::string&);
+  std::string colorize (const std::string&) const;
   static std::string colorize (const std::string&, const std::string&);
-  void _colorize (std::string&, const std::string&);
+  void _colorize (std::string&, const std::string&) const;
   static std::string strip (const std::string&);
 
   bool nontrivial () const;

@@ -27,20 +27,22 @@
 
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 # Create the rc file.
 if (open my $fh, '>', 'rc')
 {
-  print $fh "default rule \"foo\" --> suppress\n";
+  print $fh "default rule \"foo\" --> suppress\n",
+            "default rule /bar/ --> suppress\n";
   close $fh;
   ok (-r 'rc', 'Created rc');
 }
 
 # Test that string pattern line matches work.
-my $output = qx{printf "a foo\na bar\n" | ../src/clog -f rc};
-unlike ($output, qr/^a foo$/ms, 'foo is suppressed');
-like   ($output, qr/^a bar$/ms, 'bar is unchanged');
+my $output = qx{printf "a foo\na bar\na baz\n" | ../src/clog -f rc};
+unlike ($output, qr/^a foo$/ms, 'foo (string) is suppressed');
+unlike ($output, qr/^a bar$/ms, 'bar (regex) is suppressed');
+like   ($output, qr/^a baz$/ms, 'baz is unchanged');
 
 # Cleanup.
 unlink qw(rc);

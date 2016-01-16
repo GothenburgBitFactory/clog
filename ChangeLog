@@ -1,7 +1,8 @@
 ------ current release ---------------------------
 
 1.3.0 ()
-- 
+- Converted to C++11.
+- Improved compliance to CppCoreGuidelines.
 
 ------ old releases ------------------------------
 

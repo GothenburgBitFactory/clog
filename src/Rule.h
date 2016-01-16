@@ -34,7 +34,7 @@
 class Rule
 {
 public:
-  Rule (const std::string&);
+  explicit Rule (const std::string&);
   bool apply (const std::string&, std::string&);
 
 public:

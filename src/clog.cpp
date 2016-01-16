@@ -85,23 +85,15 @@ bool loadRules (const std::string& file, std::vector <Rule>& rules)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Applies all the rules in all the sections specified.
-// Note that processing does not stop after the first rule match - it keeps
-//      going.
+// Note that processing does not stop after the first rule match - it keeps going.
 void applyRules (
   std::vector <Rule>& rules,
   std::vector <std::string>& sections,
   std::string& line)
 {
-  std::vector <std::string>::const_iterator section;
-  for (section = sections.begin (); section != sections.end (); ++section)
-  {
-    std::vector <Rule>::iterator rule;
-    for (rule = rules.begin (); rule != rules.end (); ++rule)
-    {
-      // Modify line accordingly.
-      rule->apply (*section, line);
-    }
-  }
+  for (const auto& section : sections)
+    for (auto& rule : rules)
+      rule.apply (section, line);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

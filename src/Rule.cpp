@@ -137,7 +137,7 @@ Rule::Rule (const std::string& line)
 //   - substring (when _fragment is not "")
 //
 // There are several corresponding actions:
-//   - suppress  Eats the line
+//   - suppress  Eats the whole line, including \n
 //   - line      Colorizes the line
 //   - match     Colorizes the matching part
 //   - blank     Adds a blank line before and after

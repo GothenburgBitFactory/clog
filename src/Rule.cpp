@@ -28,7 +28,7 @@
 #include <Rule.h>
 #include <Nibbler.h>
 #include <RX.h>
-#include <text.h>
+#include <shared.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // <section> rule /<pattern>/  --> <color> <context>
@@ -57,8 +57,7 @@ Rule::Rule (const std::string& line)
       n.getRemainder (rest);
 
       std::string color_name;
-      std::vector <std::string> words;
-      split (words, rest, ' ');
+      std::vector <std::string> words = split (rest, ' ');
       for (auto& word : words)
       {
         if (word.length ())
@@ -100,8 +99,7 @@ Rule::Rule (const std::string& line)
       n.getRemainder (rest);
 
       std::string color_name;
-      std::vector <std::string> words;
-      split (words, rest, ' ');
+      std::vector <std::string> words = split (rest, ' ');
       for (auto& word : words)
       {
         if (word.length ())

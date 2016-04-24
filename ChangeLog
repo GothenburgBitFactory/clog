@@ -3,6 +3,7 @@
 1.3.0 ()
 - Converted to C++11.
 - Improved compliance to CppCoreGuidelines.
+- Integrated libshared.git, code-sharing across Taskwarrior products.
 
 ------ old releases ------------------------------
 

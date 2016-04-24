@@ -26,7 +26,7 @@
 
 #include <cmake.h>
 #include <Rule.h>
-#include <Nibbler.h>
+#include <Pig.h>
 #include <RX.h>
 #include <shared.h>
 
@@ -35,26 +35,26 @@
 // taskd     rule /code:"2.."/ --> green   line
 Rule::Rule (const std::string& line)
 {
-  _fragment = "";
+  fragment = "";
 
-  Nibbler n (line);
-  n.skipWS ();
+  Pig pig (line);
+  pig.skipWS ();
 
   std::string pattern;
-  if (n.getUntilWS (_section)     &&
-      n.skipWS ()                &&
-      n.getLiteral ("rule")      &&
-      n.skipWS ())
+  if (pig.getUntilWS (section)     &&
+      pig.skipWS ()                &&
+      pig.skipLiteral ("rule")     &&
+      pig.skipWS ())
   {
     // <section> rule /<pattern>/
-    if (n.getQuoted ('/', pattern) &&
-        n.skipWS ()                &&
-        n.getLiteral ("-->"))
+    if (pig.getQuoted ('/', pattern) &&
+        pig.skipWS ()                &&
+        pig.skipLiteral ("-->"))
     {
-      n.skipWS ();
+      pig.skipWS ();
 
       std::string rest;
-      n.getRemainder (rest);
+      pig.getRemainder (rest);
 
       std::string color_name;
       std::vector <std::string> words = split (rest, ' ');
@@ -62,10 +62,10 @@ Rule::Rule (const std::string& line)
       {
         if (word.length ())
         {
-               if (word == "line")      _context = word;
-          else if (word == "match")     _context = word;
-          else if (word == "suppress")  _context = word;
-          else if (word == "blank")     _context = word;
+               if (word == "line")      context = word;
+          else if (word == "match")     context = word;
+          else if (word == "suppress")  context = word;
+          else if (word == "blank")     context = word;
           else
           {
             if (color_name.length ())
@@ -76,27 +76,27 @@ Rule::Rule (const std::string& line)
         }
       }
 
-      _color = Color (color_name);
+      color = Color (color_name);
 
       // Now for "match" context patterns, add an enclosing ( ... ) if not
       // already present.
-      if (_context == "match")
+      if (context == "match")
         if (pattern.find ('(') == std::string::npos)
           pattern = "(" + pattern + ")";
 
-      _rx = RX (pattern, true);
+      rx = RX (pattern, true);
       return;
     }
 
     // <section> rule "<pattern>"
-    else if (n.getQuoted ('"', pattern) &&
-             n.skipWS ()                &&
-             n.getLiteral ("-->"))
+    else if (pig.getQuoted ('"', pattern) &&
+             pig.skipWS ()                &&
+             pig.skipLiteral ("-->"))
     {
-      n.skipWS ();
+      pig.skipWS ();
 
       std::string rest;
-      n.getRemainder (rest);
+      pig.getRemainder (rest);
 
       std::string color_name;
       std::vector <std::string> words = split (rest, ' ');
@@ -104,10 +104,10 @@ Rule::Rule (const std::string& line)
       {
         if (word.length ())
         {
-               if (word == "line")      _context = word;
-          else if (word == "match")     _context = word;
-          else if (word == "suppress")  _context = word;
-          else if (word == "blank")     _context = word;
+               if (word == "line")      context = word;
+          else if (word == "match")     context = word;
+          else if (word == "suppress")  context = word;
+          else if (word == "blank")     context = word;
           // TODO Support context "datetime", "time"
           else
           {
@@ -119,8 +119,8 @@ Rule::Rule (const std::string& line)
         }
       }
 
-      _color = Color (color_name);
-      _fragment = pattern;
+      color = Color (color_name);
+      fragment = pattern;
       return;
     }
   }
@@ -131,8 +131,8 @@ Rule::Rule (const std::string& line)
 
 ////////////////////////////////////////////////////////////////////////////////
 // There are two kinds of matching:
-//   - regex     (when _fragment is     "")
-//   - substring (when _fragment is not "")
+//   - regex     (when fragment is     "")
+//   - substring (when fragment is not "")
 //
 // There are several corresponding actions:
 //   - suppress  Eats the whole line, including \n
@@ -142,13 +142,13 @@ Rule::Rule (const std::string& line)
 //
 bool Rule::apply (const std::string& section, std::string& line)
 {
-  if (section == _section)
+  if (section == section)
   {
-    if (_context == "suppress")
+    if (context == "suppress")
     {
-      if (_fragment != "")
+      if (fragment != "")
       {
-        if (line.find (_fragment) != std::string::npos)
+        if (line.find (fragment) != std::string::npos)
         {
           line = "";
           return true;
@@ -156,7 +156,7 @@ bool Rule::apply (const std::string& section, std::string& line)
       }
       else
       {
-        if (_rx.match (line))
+        if (rx.match (line))
         {
           line = "";
           return true;
@@ -164,36 +164,36 @@ bool Rule::apply (const std::string& section, std::string& line)
       }
     }
 
-    else if (_context == "line")
+    else if (context == "line")
     {
-      if (_fragment != "")
+      if (fragment != "")
       {
-        if (line.find (_fragment) != std::string::npos)
+        if (line.find (fragment) != std::string::npos)
         {
-          line = _color.colorize (line);
+          line = color.colorize (line);
           return true;
         }
       }
       else
       {
-        if (_rx.match (line))
+        if (rx.match (line))
         {
-          line = _color.colorize (line);
+          line = color.colorize (line);
           return true;
         }
       }
     }
 
-    else if (_context == "match")
+    else if (context == "match")
     {
-      if (_fragment != "")
+      if (fragment != "")
       {
-        std::string::size_type pos = line.find (_fragment);
+        std::string::size_type pos = line.find (fragment);
         if (pos != std::string::npos)
         {
           line = line.substr (0, pos)
-               + _color.colorize (line.substr (pos, _fragment.length ()))
-               + line.substr (pos + _fragment.length ());
+               + color.colorize (line.substr (pos, fragment.length ()))
+               + line.substr (pos + fragment.length ());
           return true;
         }
       }
@@ -201,21 +201,21 @@ bool Rule::apply (const std::string& section, std::string& line)
       {
         std::vector <int> start;
         std::vector <int> end;
-        if (_rx.match (start, end, line))
+        if (rx.match (start, end, line))
         {
           line = line.substr (0, start[0])
-               + _color.colorize (line.substr (start[0], end[0] - start[0]))
+               + color.colorize (line.substr (start[0], end[0] - start[0]))
                + line.substr (end[0]);
           return true;
         }
       }
     }
 
-    else if (_context == "blank")
+    else if (context == "blank")
     {
-      if (_fragment != "")
+      if (fragment != "")
       {
-        if (line.find (_fragment) != std::string::npos)
+        if (line.find (fragment) != std::string::npos)
         {
           line = "\n" + line + "\n";
           return true;
@@ -223,7 +223,7 @@ bool Rule::apply (const std::string& section, std::string& line)
       }
       else
       {
-        if (_rx.match (line))
+        if (rx.match (line))
         {
           line = "\n" + line + "\n";
           return true;

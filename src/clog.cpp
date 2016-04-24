@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <cmake.h>
+#include <Rule.h>
 // If <iostream> is included, put it after <stdio.h>, because it includes
 // <stdio.h>, and therefore would ignore the _WITH_GETLINE.
 #ifdef FREEBSD
@@ -41,7 +42,6 @@
 #include <sys/types.h>
 #include <pwd.h>
 #include <ctime>
-#include <Rule.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // - Read rc file
@@ -85,13 +85,13 @@ bool loadRules (const std::string& file, std::vector <Rule>& rules)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Applies all the rules in all the sections specified.
-// Note that processing does not stop after the first rule match - it keeps going.
+// Note that processing does not stop after the first rule match, it keeps going.
 void applyRules (
   std::vector <Rule>& rules,
   std::vector <std::string>& sections,
   std::string& line)
 {
-  for (const auto& section : sections)
+  for (auto& section : sections)
     for (auto& rule : rules)
       rule.apply (section, line);
 }
@@ -106,7 +106,7 @@ int main (int argc, char** argv)
     // Locate $HOME.
     struct passwd* pw = getpwuid (getuid ());
     if (!pw)
-      throw std::string ("Could not read home directory from the passwd file.");
+      throw std::string ("Could not determine the home directory.");
 
     // Assume ~/.clogrc
     std::string rcFile = pw->pw_dir;

@@ -38,11 +38,11 @@ public:
   bool apply (const std::string&, std::string&);
 
 public:
-  std::string _section  {};
-  Color       _color    {};
-  std::string _context  {};
-  RX          _rx       {};
-  std::string _fragment {};
+  std::string section  {};
+  Color       color    {};
+  std::string context  {};
+  RX          rx       {};
+  std::string fragment {};
 };
 
 #endif

@@ -1,6 +1,8 @@
 ------ current release ---------------------------
 
 1.3.0 ()
+- CL-10 The suppress context doesn't suppress the newline character
+        (thanks to Cory Donnelly).
 - Converted to C++11.
 - Improved compliance to CppCoreGuidelines.
 - Integrated libshared.git, code-sharing across Taskwarrior products.

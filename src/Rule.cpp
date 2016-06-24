@@ -140,7 +140,7 @@ Rule::Rule (const std::string& line)
 //   - match     Colorizes the matching part
 //   - blank     Adds a blank line before and after
 //
-bool Rule::apply (const std::string& section, std::string& line)
+bool Rule::apply (Composite& composite, bool& blanks, const std::string& section, const std::string& line)
 {
   if (_section == section)
   {
@@ -150,7 +150,7 @@ bool Rule::apply (const std::string& section, std::string& line)
       {
         if (line.find (_fragment) != std::string::npos)
         {
-          line = "";
+          composite.clear ();
           return true;
         }
       }
@@ -158,7 +158,7 @@ bool Rule::apply (const std::string& section, std::string& line)
       {
         if (_rx.match (line))
         {
-          line = "";
+          composite.clear ();
           return true;
         }
       }
@@ -170,7 +170,7 @@ bool Rule::apply (const std::string& section, std::string& line)
       {
         if (line.find (_fragment) != std::string::npos)
         {
-          line = color.colorize (line);
+          composite.add (line, 0, _color);
           return true;
         }
       }
@@ -178,7 +178,7 @@ bool Rule::apply (const std::string& section, std::string& line)
       {
         if (_rx.match (line))
         {
-          line = color.colorize (line);
+          composite.add (line, 0, _color);
           return true;
         }
       }
@@ -188,14 +188,17 @@ bool Rule::apply (const std::string& section, std::string& line)
     {
       if (_fragment != "")
       {
+        bool found = false;
         std::string::size_type pos = line.find (_fragment);
-        if (pos != std::string::npos)
+        while (pos != std::string::npos)
         {
-          line = line.substr (0, pos)
-               + color.colorize (line.substr (pos, _fragment.length ()))
-               + line.substr (pos + _fragment.length ());
-          return true;
+          composite.add (line.substr (pos, _fragment.length ()), pos, _color);
+          pos = line.find (_fragment, pos + 1);
+          found = true;
         }
+
+        if (found)
+          return true;
       }
       else
       {
@@ -203,9 +206,9 @@ bool Rule::apply (const std::string& section, std::string& line)
         std::vector <int> end;
         if (_rx.match (start, end, line))
         {
-          line = line.substr (0, start[0])
-               + color.colorize (line.substr (start[0], end[0] - start[0]))
-               + line.substr (end[0]);
+          for (unsigned int i = 0; i < start.size (); ++i)
+            composite.add (line.substr (start[i], end[i] - start[i]), start[i], _color);
+
           return true;
         }
       }
@@ -217,7 +220,7 @@ bool Rule::apply (const std::string& section, std::string& line)
       {
         if (line.find (_fragment) != std::string::npos)
         {
-          line = "\n" + line + "\n";
+          blanks = true;
           return true;
         }
       }
@@ -225,7 +228,7 @@ bool Rule::apply (const std::string& section, std::string& line)
       {
         if (_rx.match (line))
         {
-          line = "\n" + line + "\n";
+          blanks = true;
           return true;
         }
       }

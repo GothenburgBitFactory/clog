@@ -87,13 +87,17 @@ bool loadRules (const std::string& file, std::vector <Rule>& rules)
 // Applies all the rules in all the sections specified.
 // Note that processing does not stop after the first rule match, it keeps going.
 void applyRules (
+  Composite& composite,
+  bool& blanks,
   std::vector <Rule>& rules,
-  std::vector <std::string>& sections,
-  std::string& line)
+  const std::vector <std::string>& sections,
+  const std::string& line)
 {
+  composite.add (line, 0, {0});
+
   for (auto& section : sections)
     for (auto& rule : rules)
-      rule.apply (section, line);
+      rule.apply (composite, blanks, section, line);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -197,14 +201,21 @@ int main (int argc, char** argv)
     std::vector <Rule> rules;
     if (loadRules (rcFile, rules))
     {
+      Composite composite;
+
       // Main loop: read line, apply rules, write line.
       std::string line;
       while (getline (std::cin, line)) // Strips \n
       {
         auto length = line.length ();
-        applyRules (rules, sections, line);
+        bool blanks = false;
+        applyRules (composite, blanks, rules, sections, line);
 
-        if (line.length () || line.length () == length)
+        if (blanks)
+          std::cout << "\n";
+
+        auto output = composite.str ();
+        if (output.length () || output.length () == length)
         {
           if (prepend_date || prepend_time)
           {
@@ -223,8 +234,13 @@ int main (int argc, char** argv)
                         << std::setw (2) << std::setfill ('0') << t->tm_sec  << ' ';
           }
 
-          std::cout << line << std::endl;
+          std::cout << output << "\n";
         }
+
+        if (blanks)
+          std::cout << "\n";
+
+        composite.clear ();
       }
     }
     else

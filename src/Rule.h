@@ -30,12 +30,13 @@
 #include <string>
 #include <Color.h>
 #include <RX.h>
+#include <Composite.h>
 
 class Rule
 {
 public:
   explicit Rule (const std::string&);
-  bool apply (const std::string&, std::string&);
+  bool apply (Composite&, bool&, const std::string&, const std::string&);
 
 public:
   std::string _section  {};

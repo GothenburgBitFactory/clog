@@ -35,13 +35,13 @@
 // taskd     rule /code:"2.."/ --> green   line
 Rule::Rule (const std::string& line)
 {
-  fragment = "";
+  _fragment = "";
 
   Pig pig (line);
   pig.skipWS ();
 
   std::string pattern;
-  if (pig.getUntilWS (section)     &&
+  if (pig.getUntilWS (_section)     &&
       pig.skipWS ()                &&
       pig.skipLiteral ("rule")     &&
       pig.skipWS ())
@@ -62,10 +62,10 @@ Rule::Rule (const std::string& line)
       {
         if (word.length ())
         {
-               if (word == "line")      context = word;
-          else if (word == "match")     context = word;
-          else if (word == "suppress")  context = word;
-          else if (word == "blank")     context = word;
+               if (word == "line")      _context = word;
+          else if (word == "match")     _context = word;
+          else if (word == "suppress")  _context = word;
+          else if (word == "blank")     _context = word;
           else
           {
             if (color_name.length ())
@@ -76,15 +76,15 @@ Rule::Rule (const std::string& line)
         }
       }
 
-      color = Color (color_name);
+      _color = Color (color_name);
 
       // Now for "match" context patterns, add an enclosing ( ... ) if not
       // already present.
-      if (context == "match")
+      if (_context == "match")
         if (pattern.find ('(') == std::string::npos)
           pattern = "(" + pattern + ")";
 
-      rx = RX (pattern, true);
+      _rx = RX (pattern, true);
       return;
     }
 
@@ -104,11 +104,11 @@ Rule::Rule (const std::string& line)
       {
         if (word.length ())
         {
-               if (word == "line")      context = word;
-          else if (word == "match")     context = word;
-          else if (word == "suppress")  context = word;
-          else if (word == "blank")     context = word;
-          // TODO Support context "datetime", "time"
+               if (word == "line")      _context = word;
+          else if (word == "match")     _context = word;
+          else if (word == "suppress")  _context = word;
+          else if (word == "blank")     _context = word;
+          // TODO Support _context "datetime", "time"
           else
           {
             if (color_name.length ())
@@ -119,8 +119,8 @@ Rule::Rule (const std::string& line)
         }
       }
 
-      color = Color (color_name);
-      fragment = pattern;
+      _color = Color (color_name);
+      _fragment = pattern;
       return;
     }
   }
@@ -131,8 +131,8 @@ Rule::Rule (const std::string& line)
 
 ////////////////////////////////////////////////////////////////////////////////
 // There are two kinds of matching:
-//   - regex     (when fragment is     "")
-//   - substring (when fragment is not "")
+//   - regex     (when _fragment is     "")
+//   - substring (when _fragment is not "")
 //
 // There are several corresponding actions:
 //   - suppress  Eats the whole line, including \n
@@ -142,13 +142,13 @@ Rule::Rule (const std::string& line)
 //
 bool Rule::apply (const std::string& section, std::string& line)
 {
-  if (section == section)
+  if (_section == section)
   {
-    if (context == "suppress")
+    if (_context == "suppress")
     {
-      if (fragment != "")
+      if (_fragment != "")
       {
-        if (line.find (fragment) != std::string::npos)
+        if (line.find (_fragment) != std::string::npos)
         {
           line = "";
           return true;
@@ -156,7 +156,7 @@ bool Rule::apply (const std::string& section, std::string& line)
       }
       else
       {
-        if (rx.match (line))
+        if (_rx.match (line))
         {
           line = "";
           return true;
@@ -164,11 +164,11 @@ bool Rule::apply (const std::string& section, std::string& line)
       }
     }
 
-    else if (context == "line")
+    else if (_context == "line")
     {
-      if (fragment != "")
+      if (_fragment != "")
       {
-        if (line.find (fragment) != std::string::npos)
+        if (line.find (_fragment) != std::string::npos)
         {
           line = color.colorize (line);
           return true;
@@ -176,7 +176,7 @@ bool Rule::apply (const std::string& section, std::string& line)
       }
       else
       {
-        if (rx.match (line))
+        if (_rx.match (line))
         {
           line = color.colorize (line);
           return true;
@@ -184,16 +184,16 @@ bool Rule::apply (const std::string& section, std::string& line)
       }
     }
 
-    else if (context == "match")
+    else if (_context == "match")
     {
-      if (fragment != "")
+      if (_fragment != "")
       {
-        std::string::size_type pos = line.find (fragment);
+        std::string::size_type pos = line.find (_fragment);
         if (pos != std::string::npos)
         {
           line = line.substr (0, pos)
-               + color.colorize (line.substr (pos, fragment.length ()))
-               + line.substr (pos + fragment.length ());
+               + color.colorize (line.substr (pos, _fragment.length ()))
+               + line.substr (pos + _fragment.length ());
           return true;
         }
       }
@@ -201,7 +201,7 @@ bool Rule::apply (const std::string& section, std::string& line)
       {
         std::vector <int> start;
         std::vector <int> end;
-        if (rx.match (start, end, line))
+        if (_rx.match (start, end, line))
         {
           line = line.substr (0, start[0])
                + color.colorize (line.substr (start[0], end[0] - start[0]))
@@ -211,11 +211,11 @@ bool Rule::apply (const std::string& section, std::string& line)
       }
     }
 
-    else if (context == "blank")
+    else if (_context == "blank")
     {
-      if (fragment != "")
+      if (_fragment != "")
       {
-        if (line.find (fragment) != std::string::npos)
+        if (line.find (_fragment) != std::string::npos)
         {
           line = "\n" + line + "\n";
           return true;
@@ -223,7 +223,7 @@ bool Rule::apply (const std::string& section, std::string& line)
       }
       else
       {
-        if (rx.match (line))
+        if (_rx.match (line))
         {
           line = "\n" + line + "\n";
           return true;

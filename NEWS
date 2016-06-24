@@ -1,7 +1,9 @@
 
 New Features in clog 1.3.0
 
-  - None
+  - The 'suppress' action now suppresses the newline also.
+  - Overlapping matches are now properly handled. There is now no limit to the
+    number of colored elements on a line.
 
   Please refer to the ChangeLog file for full details.
 

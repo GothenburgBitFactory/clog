@@ -1,4 +1,4 @@
-.TH clog 1 2015-10-12 "${PACKAGE_STRING}" "User Manuals"
+.TH clog 1 2016-06-24 "${PACKAGE_STRING}" "User Manuals"
 
 .SH NAME
 clog \- colorized log tail
@@ -7,25 +7,23 @@ clog \- colorized log tail
 .B clog [-h|--help] [-v|--version] [-d|--date] [-t|--time] [-f|--file <rc>] [ <section> ... ]
 
 .SH DESCRIPTION
-Clog is a filter command, which means it copies its input to its output.  But if
-lines in the input match certain patterns, actions are taken.  These are called
-rules.
+Clog is a filter command, and therefore copies its input to its output.  But if
+lines in the input match certain patterns, actions are taken, which are defined
+as 'rules'.
 
-The rules are defined in ~/.clogrc as regular expressions, and the actions
-are specified, to colorize either the line or matching pattern, or perhaps to
-suppress the line.
+The rules are defined in ~/.clogrc as text patterns or regular expressions, and
+the actions are specified, to colorize either the line or matching pattern, or
+perhaps to suppress the line.
 
-If --date is specified, the current date, in the form YYYY-MM-DD is prepended
-to all lines.
+If --date is specified the current date, YYYY-MM-DD, is prepended to all lines.
 
-If --time is specified, the current time, in the form HH:MM:SS is prepended to
-all lines.
+If --time is specified the current time, HH:MM:SS, is prepended to all lines.
 
 If --file is specified, an alternate configuration rc file may be specified.
 Default is to ~/.clogrc
 
 One or more section arguments may be specified.  If none are provided, 'default'
-is assumed.  A section corresponds to a rule set defined in ~/.clogrc. and
+is assumed.  A section corresponds to a named rule set defined in ~/.clogrc. and
 allows the use of one .clogrc file to serve multiple different uses of clog.
 If more than one section is specified, the rules sets are combined, in the
 sequence found.
@@ -113,7 +111,6 @@ Clog is distributed under the MIT license. See
 http://www.opensource.org/licenses/mit-license.php for more information.
 
 .SH SEE ALSO
-
 For more information, see:
 
 .TP
@@ -121,10 +118,15 @@ The official site at
 <http://tasktools.org/clog.html>
 
 .TP
-You can contact the project by writing an email to
-<support@tasktools.org>
+The official code repository at
+<https://git.tasktools.org/scm/ut/clog.git>
+
+.TP
+You can contact the project by emailing
+<support@taskwarrior.org>
 
 .SH REPORTING BUGS
 .TP
-Bugs in clog may be reported to <support@tasktools.org>
+Bugs in Taskwarrior may be reported to the issue-tracker at
+<https://bug.tasktools.org/>
 

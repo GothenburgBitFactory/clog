@@ -51,7 +51,7 @@ from basetest import Clog, TestCase
 #     self.assertNotRegexpMatches(text, pattern)
 #     self.tap("")
 
-class TestSuppress(TestCase):
+class TestPatternLine(TestCase):
     def setUp(self):
         """Executed before each test in the class"""
         self.t = Clog()
@@ -62,6 +62,20 @@ class TestSuppress(TestCase):
 
         code, out, err = self.t("", input='a foo\na bar\na baz\n')
         self.assertIn('\x1b[31ma foo\x1b[0m\n', out)
+        self.assertRegexpMatches(out, r'\na bar\n')
+        self.assertRegexpMatches(out, r'\na baz\n')
+
+class TestPatternMatch(TestCase):
+    def setUp(self):
+        """Executed before each test in the class"""
+        self.t = Clog()
+
+    def test_pattern_match(self):
+        """Test matching a pattern and coloring a match"""
+        self.t.config('default rule "foo" --> red match')
+
+        code, out, err = self.t("", input='a foo\na bar\na baz\n')
+        self.assertIn('a \x1b[31mfoo\x1b[0m\n', out)
         self.assertRegexpMatches(out, r'\na bar\n')
         self.assertRegexpMatches(out, r'\na baz\n')
 

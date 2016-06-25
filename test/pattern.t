@@ -79,6 +79,29 @@ class TestPatternMatch(TestCase):
         self.assertRegexpMatches(out, r'\na bar\n')
         self.assertRegexpMatches(out, r'\na baz\n')
 
+class TestPatternOverlap(TestCase):
+    def setUp(self):
+        """Executed before each test in the class"""
+        self.t = Clog()
+
+    def test_pattern_overlap_1(self):
+        """Test matching a pattern and coloring a match, red before blue"""
+        self.t.config('default rule "abc" --> red match')
+        self.t.config('default rule "cd" --> blue match')
+
+        code, out, err = self.t("", input='abcdabcdabcd\n')
+        self.tap(out)
+        self.assertIn('\x1b[31mab\x1b[0m\x1b[34mcd\x1b[0m\x1b[31mab\x1b[0m\x1b[34mcd\x1b[0m\n', out)
+
+    def test_pattern_overlap_2(self):
+        """Test matching a pattern and coloring a match, blue before red"""
+        self.t.config('default rule "cd" --> blue match')
+        self.t.config('default rule "abc" --> red match')
+
+        code, out, err = self.t("", input='abcdabcdabcd\n')
+        self.tap(out)
+        self.assertIn('\x1b[31mabc\x1b[0m\x1b[34md\x1b[0m\x1b[31mabc\x1b[0m\x1b[34md\x1b[0m\n', out)
+
 if __name__ == "__main__":
     from simpletap import TAPTestRunner
     unittest.main(testRunner=TAPTestRunner())

@@ -1,10 +1,16 @@
 .TH clog 1 2016-06-24 "${PACKAGE_STRING}" "User Manuals"
 
 .SH NAME
-clog \- colorized log tail
+clog \- colorized log filter
 
 .SH SYNOPSIS
-.B clog [-h|--help] [-v|--version] [-d|--date] [-t|--time] [-f|--file <rc>] [ <section> ... ]
+.B clog [<options>] [<section> ...]
+
+  -h|--help       Show this usage
+  -v|--version    Show this version
+  -d|--date       Prepend all lines with the current date
+  -t|--time       Prepend all lines with the current time
+  -f|--file       Override default ~/.clogrc
 
 .SH DESCRIPTION
 Clog is a filter command, and therefore copies its input to its output.  But if

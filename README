@@ -1,7 +1,8 @@
 What is clog?
 =============
 
-Have you ever done something like this:
+Clog is a filter that colorizes log files. Have you ever done something like
+this:
 
     $ tail -f /var/log/something.log
 

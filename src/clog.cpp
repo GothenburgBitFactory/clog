@@ -126,10 +126,15 @@ int main (int argc, char** argv)
       if (!strcmp (argv[i], "-h") ||
           !strcmp (argv[i], "--help"))
       {
-        std::cout << "\n"
-                  << "Usage: clog [-h|--help] [-v|--version] [-d|--date] [-t|--time] "
-                  << " [-f|--file <rc>] [ <section> ... ]\n"
-                  << "\n";
+        std::cout << '\n'
+                  << "Usage: clog [<options>] [<section> ...]\n"
+                  << '\n'
+                  << "  -h|--help       Show this usage\n"
+                  << "  -v|--version    Show this version\n"
+                  << "  -d|--date       Prepend all lines with the current date\n"
+                  << "  -t|--time       Prepend all lines with the current time\n"
+                  << "  -f|--file       Override default ~/.clogrc\n"
+                  << '\n';
         return status;
       }
 

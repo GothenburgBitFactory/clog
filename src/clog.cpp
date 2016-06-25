@@ -145,21 +145,25 @@ int main (int argc, char** argv)
                   << PACKAGE_STRING
                   << " built for "
 #if defined (DARWIN)
-                  << "darwin"
+                  << "Darwin"
 #elif defined (SOLARIS)
-                  << "solaris"
+                  << "Solaris"
 #elif defined (CYGWIN)
-                  << "cygwin"
+                  << "Cygwin"
 #elif defined (OPENBSD)
-                  << "openbsd"
-#elif defined (HAIKU)
-                  << "haiku"
+                  << "OpenBSD"
 #elif defined (FREEBSD)
-                  << "freebsd"
+                  << "FreeBSD"
+#elif defined (NETBSD)
+                  << "NetBSD"
 #elif defined (LINUX)
-                  << "linux"
+                  << "Linux"
+#elif defined (KFREEBSD)
+                  << "GNU/kFreeBSD"
+#elif defined (GNUHURD)
+                  << "GNU/Hurd"
 #else
-                  << "unknown"
+                  << "Unknown"
 #endif
                   << "\n"
                   << "Copyright (C) 2010 - 2016 Göteborg Bit Factory\n"

@@ -41,9 +41,9 @@ Rule::Rule (const std::string& line)
   pig.skipWS ();
 
   std::string pattern;
-  if (pig.getUntilWS (_section)     &&
-      pig.skipWS ()                &&
-      pig.skipLiteral ("rule")     &&
+  if (pig.getUntilWS (_section) &&
+      pig.skipWS ()             &&
+      pig.skipLiteral ("rule")  &&
       pig.skipWS ())
   {
     // <section> rule /<pattern>/
@@ -62,10 +62,10 @@ Rule::Rule (const std::string& line)
       {
         if (word.length ())
         {
-               if (word == "line")      _context = word;
-          else if (word == "match")     _context = word;
-          else if (word == "suppress")  _context = word;
-          else if (word == "blank")     _context = word;
+               if (word == "line")     _context = word;
+          else if (word == "match")    _context = word;
+          else if (word == "suppress") _context = word;
+          else if (word == "blank")    _context = word;
           else
           {
             if (color_name.length ())
@@ -104,10 +104,10 @@ Rule::Rule (const std::string& line)
       {
         if (word.length ())
         {
-               if (word == "line")      _context = word;
-          else if (word == "match")     _context = word;
-          else if (word == "suppress")  _context = word;
-          else if (word == "blank")     _context = word;
+               if (word == "line")     _context = word;
+          else if (word == "match")    _context = word;
+          else if (word == "suppress") _context = word;
+          else if (word == "blank")    _context = word;
           // TODO Support _context "datetime", "time"
           else
           {

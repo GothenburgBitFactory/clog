@@ -56,8 +56,8 @@ class TestSuppress(TestCase):
         """Executed before each test in the class"""
         self.t = Clog()
 
-    def test_foo(self):
-        """Test foo"""
+    def test_suppress_pattern_and_regex(self):
+        """Test suppress pattern and a regex"""
         self.t.config('default rule "foo" --> suppress')
         self.t.config('default rule /bar/ --> suppress')
 

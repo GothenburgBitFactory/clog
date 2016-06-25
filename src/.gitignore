@@ -1,2 +1,4 @@
 clog
-
+libclog.a
+liblibshared.a
+debug

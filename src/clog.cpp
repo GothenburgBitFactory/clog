@@ -43,45 +43,7 @@
 #include <pwd.h>
 #include <ctime>
 
-////////////////////////////////////////////////////////////////////////////////
-// - Read rc file
-// - Strip comments
-// - Parse rules
-//
-// Note that it is an error to not have an rc file.
-bool loadRules (const std::string& file, std::vector <Rule>& rules)
-{
-  std::ifstream rc (file.c_str ());
-  if (rc.good ())
-  {
-    std::string::size_type comment;
-    std::string line;
-    while (std::getline (rc, line)) // Strips \n
-    {
-      // Remove comments.
-      if ((comment = line.find ('#')) != std::string::npos)
-        line.resize (comment);
-
-      // Process each non-trivial line as a rule.
-      if (line.length () > 1)
-      {
-        try
-        {
-          rules.push_back (Rule (line));
-        }
-        catch (int)
-        {
-          // Deliberately ignored - error handling.
-        }
-      }
-    }
-
-    rc.close ();
-    return true;
-  }
-
-  return false;
-}
+extern bool loadRules (const std::string&, std::vector <Rule>&);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Applies all the rules in all the sections specified.

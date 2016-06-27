@@ -4,7 +4,7 @@ include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_SOURCE_DIR}/src/libshared/src
                      ${CLOG_INCLUDE_DIRS})
 
-set (clog_SRCS clog.cpp Rule.cpp Rule.h)
+set (clog_SRCS clog.cpp rules.cpp Rule.cpp Rule.h)
 
 set (libshared_SRCS libshared/src/Args.cpp          libshared/src/Args.h
                     libshared/src/Color.cpp         libshared/src/Color.h

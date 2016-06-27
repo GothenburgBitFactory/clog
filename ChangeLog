@@ -1,6 +1,6 @@
 ------ current release ---------------------------
 
-1.3.0 (2016-06-27)
+1.3.0 (2016-06-27) 98b53f0142ce85725d83a6fad0091f7f92b6269d
 - CL-10 The suppress context doesn't suppress the newline character
         (thanks to Cory Donnelly).
 - CL-12 Overlapping rules are not respected

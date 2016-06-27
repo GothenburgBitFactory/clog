@@ -1,4 +1,4 @@
-.TH clog 1 2016-06-27 "${PACKAGE_STRING}" "User Manuals"
+.TH clog 1 2016-06-28 "${PACKAGE_STRING}" "User Manuals"
 
 .SH NAME
 clog \- colorized log filter

@@ -1,9 +1,7 @@
 
------- current release ---------------------------
-
 1.4.0 ()
 
------- old releases ------------------------------
+------ current release ---------------------------
 
 1.3.0 (2016-06-27) 98b53f0142ce85725d83a6fad0091f7f92b6269d
 - CL-10 The suppress context doesn't suppress the newline character
@@ -13,6 +11,8 @@
 - Converted to C++11.
 - Improved compliance to CppCoreGuidelines.
 - Integrated libshared.git, code-sharing across Taskwarrior products.
+
+------ old releases ------------------------------
 
 1.2.1 (2015-10-12) 33c912809e13f24801d273614f9d6dfc14b1ef41
 - CL-8 clog 1.2.0 fails to build

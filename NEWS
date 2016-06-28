@@ -1,7 +1,7 @@
 
 New Features in clog 1.4.0
 
-  - 
+  - Allows nested 'include <file>' statements in ~/.flodrc.
 
   Please refer to the ChangeLog file for full details.
 

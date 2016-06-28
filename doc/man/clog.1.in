@@ -38,6 +38,14 @@ sequence found.
 Clog reads its configuration from a file in the user's home directory:
 ~/.clogrc.
 
+The configuration file can include other configuration files, using this syntax:
+
+.RS
+include /path/to/other/file
+.br
+include ~/rules.txt
+.RE
+
 The format of the rules is:
 
 .RS

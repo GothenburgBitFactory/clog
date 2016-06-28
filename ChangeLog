@@ -1,5 +1,7 @@
 
 1.4.0 ()
+- CL-3  clog; nested include files
+        (thanks to David Patrick).
 
 ------ current release ---------------------------
 

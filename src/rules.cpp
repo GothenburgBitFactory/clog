@@ -26,6 +26,8 @@
 
 #include <cmake.h>
 #include <Rule.h>
+#include <FS.h>
+#include <shared.h>
 // If <iostream> is included, put it after <stdio.h>, because it includes
 // <stdio.h>, and therefore would ignore the _WITH_GETLINE.
 #ifdef FREEBSD
@@ -58,13 +60,25 @@ bool loadRules (const std::string& file, std::vector <Rule>& rules)
       // Process each non-trivial line as a rule.
       if (line.length () > 1)
       {
-        try
+        auto words = split (line);
+        if (words.size () == 2 &&
+            words[0] == "include")
         {
-          rules.push_back (Rule (line));
+          // File::File expands relative paths, and ~user.
+          File f (words[1]);
+          if (! loadRules (f._data, rules))
+            return false;
         }
-        catch (int)
+        else
         {
-          // Deliberately ignored - error handling.
+          try
+          {
+            rules.push_back (Rule (line));
+          }
+          catch (int)
+          {
+            // Deliberately ignored - error handling.
+          }
         }
       }
     }

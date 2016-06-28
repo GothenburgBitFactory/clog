@@ -99,7 +99,7 @@ Rule::Rule (const std::string& line)
       pig.getRemainder (rest);
 
       std::string color_name;
-      std::vector <std::string> words = split (rest, ' ');
+      std::vector <std::string> words = split (rest);
       for (auto& word : words)
       {
         if (word.length ())

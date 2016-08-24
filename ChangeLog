@@ -1,7 +1,11 @@
 
 1.4.0 ()
-- CL-3  clog; nested include files
-        (thanks to David Patrick).
+- TD-120  Missing cmakedefine for HAVE_GET_CURRENT_DIR_NAME
+          (thanks to Jörg Krause, Ben Boeckel).
+- TW-1845 Cygwin build fails, missing get_current_dir_name
+          (thanks to hosaka).
+- CL-3    clog; nested include files
+          (thanks to David Patrick).
 
 ------ current release ---------------------------
 

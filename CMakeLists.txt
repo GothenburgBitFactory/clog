@@ -5,7 +5,6 @@ set (HAVE_CMAKE true)
 
 project (clog)
 include (CXXSniffer)
-include (ExternalProject)
 
 set (PROJECT_VERSION "1.4.0")
 

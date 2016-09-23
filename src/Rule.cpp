@@ -99,7 +99,7 @@ Rule::Rule (const std::string& line)
       pig.getRemainder (rest);
 
       std::string color_name;
-      std::vector <std::string> words = split (rest);
+      auto words = split (rest);
       for (auto& word : words)
       {
         if (word.length ())
@@ -189,7 +189,7 @@ bool Rule::apply (Composite& composite, bool& blanks, const std::string& section
       if (_fragment != "")
       {
         bool found = false;
-        std::string::size_type pos = line.find (_fragment);
+        auto pos = line.find (_fragment);
         while (pos != std::string::npos)
         {
           composite.add (line.substr (pos, _fragment.length ()), pos, _color);

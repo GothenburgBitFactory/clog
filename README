@@ -54,7 +54,7 @@ lower in the rc file gets to apply it's color later, and therefore 'on top of'
 that of an earlier rule.
 
 Note that there is a default section, called 'default'. Putting rules in the
-default section means that no section need be specified on the command line.
-Multiple sections may be specified, and the rules are combined.
+default section means that you do not need to specify a section on the command
+line. Multiple sections may be specified, and the rules are combined.
 
 ---

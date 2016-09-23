@@ -85,8 +85,8 @@ int main (int argc, char** argv)
 
     for (int i = 1; i < argc; ++i)
     {
-      if (!strcmp (argv[i], "-h") ||
-          !strcmp (argv[i], "--help"))
+      if (! strcmp (argv[i], "-h") ||
+          ! strcmp (argv[i], "--help"))
       {
         std::cout << '\n'
                   << "Usage: clog [<options>] [<section> ...]\n"
@@ -100,8 +100,8 @@ int main (int argc, char** argv)
         return status;
       }
 
-      else if (!strcmp (argv[i], "-v") ||
-               !strcmp (argv[i], "--version"))
+      else if (! strcmp (argv[i], "-v") ||
+               ! strcmp (argv[i], "--version"))
       {
         std::cout << "\n"
                   << PACKAGE_STRING
@@ -139,21 +139,21 @@ int main (int argc, char** argv)
         return status;
       }
 
-      else if (!strcmp (argv[i], "-d") ||
-               !strcmp (argv[i], "--date"))
+      else if (! strcmp (argv[i], "-d") ||
+               ! strcmp (argv[i], "--date"))
       {
         prepend_date = true;
       }
 
-      else if (!strcmp (argv[i], "-t") ||
-               !strcmp (argv[i], "--time"))
+      else if (! strcmp (argv[i], "-t") ||
+               ! strcmp (argv[i], "--time"))
       {
         prepend_time = true;
       }
 
       else if (argc > i + 1 &&
-               (!strcmp (argv[i], "-f") ||
-                !strcmp (argv[i], "--file")))
+               (! strcmp (argv[i], "-f") ||
+                ! strcmp (argv[i], "--file")))
       {
         rcFile = argv[++i];
       }

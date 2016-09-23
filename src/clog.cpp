@@ -217,7 +217,7 @@ int main (int argc, char** argv)
     else
     {
       std::cout << "Cannot open " << rcFile << "\n"
-                << "See 'man clog' for details, and a sample file.\n";
+                << "See 'man clog' for details and a sample file.\n";
       status = -1;
     }
   }

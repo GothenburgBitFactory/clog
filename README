@@ -6,7 +6,7 @@ this:
 
     $ tail -f /var/log/something.log
 
-and left that running in a terminal, while you debug or run some program? Were
+Then left that running in a terminal, while you debug or run some program? Were
 you able to spot important information as it scrolled by? Depending on the
 volume of data scrolling by, it can be difficult to spot important information.
 

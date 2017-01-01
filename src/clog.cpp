@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2010 - 2016, Paul Beckingham, Federico Hernandez.
+// Copyright 2010 - 2017, Paul Beckingham, Federico Hernandez.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -128,7 +128,7 @@ int main (int argc, char** argv)
                   << "Unknown"
 #endif
                   << "\n"
-                  << "Copyright (C) 2010 - 2016 Göteborg Bit Factory\n"
+                  << "Copyright (C) 2010 - 2017 Göteborg Bit Factory\n"
                   << "\n"
                   << "Clog may be copied only under the terms of the MIT "
                      "license, which may be found in the source kit.\n"

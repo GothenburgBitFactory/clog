@@ -42,6 +42,7 @@
 #include <sys/types.h>
 #include <pwd.h>
 #include <ctime>
+#include <shared.h>
 
 extern bool loadRules (const std::string&, std::vector <Rule>&);
 
@@ -106,27 +107,7 @@ int main (int argc, char** argv)
         std::cout << "\n"
                   << PACKAGE_STRING
                   << " built for "
-#if defined (DARWIN)
-                  << "Darwin"
-#elif defined (SOLARIS)
-                  << "Solaris"
-#elif defined (CYGWIN)
-                  << "Cygwin"
-#elif defined (OPENBSD)
-                  << "OpenBSD"
-#elif defined (FREEBSD)
-                  << "FreeBSD"
-#elif defined (NETBSD)
-                  << "NetBSD"
-#elif defined (LINUX)
-                  << "Linux"
-#elif defined (KFREEBSD)
-                  << "GNU/kFreeBSD"
-#elif defined (GNUHURD)
-                  << "GNU/Hurd"
-#else
-                  << "Unknown"
-#endif
+                  << osName ()
                   << "\n"
                   << "Copyright (C) 2010 - 2017 Göteborg Bit Factory\n"
                   << "\n"

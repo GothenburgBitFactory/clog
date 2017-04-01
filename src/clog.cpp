@@ -58,7 +58,7 @@ void applyRules (
 {
   composite.add (line, 0, {0});
 
-  for (auto& section : sections)
+  for (const auto& section : sections)
     for (auto& rule : rules)
       rule.apply (composite, blanks, section, line);
 }

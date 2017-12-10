@@ -4,6 +4,8 @@
           (thanks to Jörg Krause, Ben Boeckel).
 - TW-1845 Cygwin build fails, missing get_current_dir_name
           (thanks to hosaka).
+- TW-1936 Tweak tests to have fuller TAP compliance
+          (thanks to Paul J. Fenwick
 - CL-3    clog; nested include files
           (thanks to David Patrick).
 

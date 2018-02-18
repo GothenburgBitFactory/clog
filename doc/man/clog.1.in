@@ -129,11 +129,11 @@ For more information, see:
 
 .TP
 The official site at
-<http://tasktools.org/clog.html>
+<https://taskwarrior.org/docs/clog/>
 
 .TP
 The official code repository at
-<https://git.tasktools.org/scm/ut/clog.git>
+<https://github.com/GothenburgBitFactory/clog>
 
 .TP
 You can contact the project by emailing
@@ -142,5 +142,5 @@ You can contact the project by emailing
 .SH REPORTING BUGS
 .TP
 Bugs in Taskwarrior may be reported to the issue-tracker at
-<https://bug.tasktools.org/>
+<https://github.com/GothenburgBitFactory/clog/issues>
 

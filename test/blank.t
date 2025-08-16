@@ -1,5 +1,5 @@
-#!/usr/bin/env python2.7
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+
 ###############################################################################
 #
 # Copyright 2006 - 2017, Paul Beckingham, Federico Hernandez.
@@ -26,30 +26,15 @@
 #
 ###############################################################################
 
-import sys
 import os
+import sys
 import unittest
-from datetime import datetime
+
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from basetest import Clog, TestCase
 
-# Test methods available:
-#     self.assertEqual(a, b)
-#     self.assertNotEqual(a, b)
-#     self.assertTrue(x)
-#     self.assertFalse(x)
-#     self.assertIs(a, b)
-#     self.assertIsNot(substring, text)
-#     self.assertIsNone(x)
-#     self.assertIsNotNone(x)
-#     self.assertIn(substring, text)
-#     self.assertNotIn(substring, text
-#     self.assertRaises(e)
-#     self.assertRegexpMatches(text, pattern)
-#     self.assertNotRegexpMatches(text, pattern)
-#     self.tap("")
 
 class TestBlank(TestCase):
     def setUp(self):
@@ -60,10 +45,10 @@ class TestBlank(TestCase):
         """Test blank line insertion"""
         self.t.config('default rule "bar" --> blank')
 
-        code, out, err = self.t("", input='foo\nfoo\nbar\nbaz\nbaz\n')
-        self.assertEqual('foo\nfoo\n\nbar\n\nbaz\nbaz\n', out)
+        code, out, err = self.t("", input="foo\nfoo\nbar\nbaz\nbaz\n".encode())
+        self.assertEqual("foo\nfoo\n\nbar\n\nbaz\nbaz\n", out)
+
 
 if __name__ == "__main__":
     from simpletap import TAPTestRunner
     unittest.main(testRunner=TAPTestRunner())
-

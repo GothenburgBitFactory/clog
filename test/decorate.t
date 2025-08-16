@@ -1,5 +1,5 @@
-#!/usr/bin/env python2.7
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+
 ###############################################################################
 #
 # Copyright 2006 - 2017, Paul Beckingham, Federico Hernandez.
@@ -35,21 +35,6 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from basetest import Clog, TestCase
 
-# Test methods available:
-#     self.assertEqual(a, b)
-#     self.assertNotEqual(a, b)
-#     self.assertTrue(x)
-#     self.assertFalse(x)
-#     self.assertIs(a, b)
-#     self.assertIsNot(substring, text)
-#     self.assertIsNone(x)
-#     self.assertIsNotNone(x)
-#     self.assertIn(substring, text)
-#     self.assertNotIn(substring, text
-#     self.assertRaises(e)
-#     self.assertRegexpMatches(text, pattern)
-#     self.assertNotRegexpMatches(text, pattern)
-#     self.tap("")
 
 class TestRegexLine(TestCase):
     def setUp(self):
@@ -60,28 +45,27 @@ class TestRegexLine(TestCase):
         """Test decorate a line with the date"""
         self.t.config('')
 
-        code, out, err = self.t("--date", input='foo\nbar\n')
-        self.assertRegexpMatches(out, r'^\d{4}-\d{2}-\d{2} foo\n')
-        self.assertRegexpMatches(out, r'\n\d{4}-\d{2}-\d{2} bar$')
+        code, out, err = self.t("--date", input='foo\nbar\n'.encode())
+        self.assertRegex(out, r'^\d{4}-\d{2}-\d{2} foo\n')
+        self.assertRegex(out, r'\n\d{4}-\d{2}-\d{2} bar$')
 
     def test_decorate_time(self):
         """Test decorate a line with time"""
         self.t.config('')
 
-        code, out, err = self.t("--time", input='foo\nbar\n')
-        self.assertRegexpMatches(out, r'^\d{2}:\d{2}:\d{2} foo\n')
-        self.assertRegexpMatches(out, r'\n\d{2}:\d{2}:\d{2} bar$')
+        code, out, err = self.t("--time", input='foo\nbar\n'.encode())
+        self.assertRegex(out, r'^\d{2}:\d{2}:\d{2} foo\n')
+        self.assertRegex(out, r'\n\d{2}:\d{2}:\d{2} bar$')
 
     def test_decorate_date_and_time(self):
         """Test decorate a line with date and time"""
         self.t.config('')
 
-        code, out, err = self.t("--date --time", input='foo\nbar\n')
-        self.assertRegexpMatches(out, r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} foo\n')
-        self.assertRegexpMatches(out, r'\n\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} bar$')
+        code, out, err = self.t("--date --time", input='foo\nbar\n'.encode())
+        self.assertRegex(out, r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} foo\n')
+        self.assertRegex(out, r'\n\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} bar$')
 
 
 if __name__ == "__main__":
     from simpletap import TAPTestRunner
     unittest.main(testRunner=TAPTestRunner())
-

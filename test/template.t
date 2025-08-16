@@ -1,5 +1,5 @@
-#!/usr/bin/env python2.7
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+
 ###############################################################################
 #
 # Copyright 2006 - 2017, Paul Beckingham, Federico Hernandez.
@@ -33,23 +33,8 @@ from datetime import datetime
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from basetest import Timew, TestCase
+from basetest import Clog, TestCase
 
-# Test methods available:
-#     self.assertEqual(a, b)
-#     self.assertNotEqual(a, b)
-#     self.assertTrue(x)
-#     self.assertFalse(x)
-#     self.assertIs(a, b)
-#     self.assertIsNot(substring, text)
-#     self.assertIsNone(x)
-#     self.assertIsNotNone(x)
-#     self.assertIn(substring, text)
-#     self.assertNotIn(substring, text
-#     self.assertRaises(e)
-#     self.assertRegexpMatches(text, pattern)
-#     self.assertNotRegexpMatches(text, pattern)
-#     self.tap("")
 
 class TestBugNumber(TestCase):
     @classmethod
@@ -67,7 +52,7 @@ class TestBugNumber(TestCase):
 
     def test_foo(self):
         """Test foo"""
-        code, out, err = self.t("foo")
+        code, out, err = self.t("foo".encode())
         self.tap(out)
         self.tap(err)
 
@@ -89,7 +74,7 @@ class TestBugNumber(TestCase):
         # Remove FAKETIME settings
         self.t.faketime()
 
-        code, out, err = self.t("insert test here")
+        code, out, err = self.t("insert test here".encode())
         expected = "2.0y"
         self.assertIn(expected, out)
 
@@ -113,5 +98,3 @@ class TestBugNumber(TestCase):
 if __name__ == "__main__":
     from simpletap import TAPTestRunner
     unittest.main(testRunner=TAPTestRunner())
-
-# vim: ai sts=4 et sw=4 ft=python

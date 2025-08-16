@@ -1,26 +1,23 @@
-# -*- coding: utf-8 -*-
 from __future__ import division
-import os
-import sys
-import socket
-import signal
-import functools
+
 import atexit
+import functools
+import os
+import signal
+import sys
 import tempfile
+from queue import Queue, Empty
 from subprocess import Popen, PIPE, STDOUT
 from threading import Thread
-try:
-    from Queue import Queue, Empty
-except ImportError:
-    from queue import Queue, Empty
 from time import sleep
+
 try:
     import simplejson as json
 except ImportError:
     import json
 from .exceptions import CommandError, TimeoutWaitingFor
 
-ON_POSIX = 'posix' in sys.builtin_module_names
+ON_POSIX = "posix" in sys.builtin_module_names
 
 # Directory relative to basetest module location
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -50,21 +47,17 @@ UUID_REGEXP = ("[0-9A-Fa-f]{8}-" + ("[0-9A-Fa-f]{4}-" * 3) + "[0-9A-Fa-f]{12}")
 
 
 def clog_binary_location(cmd="clog"):
-    """ ../src/ is used by default.
-    """
+    """ ../src/ is used by default."""
     return os.path.join(BIN_PREFIX, cmd)
-    return binary_location(cmd, CLOG_USE_PATH)
 
 
 def binary_location(cmd, USE_PATH=False):
-    """ ../src/ is used by default.
-    """
+    """ ../src/ is used by default."""
     return os.path.join(BIN_PREFIX, cmd)
 
 
 def wait_condition(cond, timeout=1, sleeptime=.01):
-    """Wait for condition to return anything other than None
-    """
+    """Wait for condition to return anything other than None"""
     # NOTE Increasing sleeptime can dramatically increase testsuite runtime
     # It also reduces CPU load significantly
     if timeout is None:
@@ -89,8 +82,7 @@ def wait_condition(cond, timeout=1, sleeptime=.01):
 
 
 def wait_process(pid, timeout=None):
-    """Wait for process to finish
-    """
+    """Wait for process to finish"""
     def process():
         try:
             os.kill(pid, 0)
@@ -131,18 +123,17 @@ def _queue_output(arguments, pidq, outputq):
     out, err = proc.communicate(input)
 
     if sys.version_info > (3,):
-        out, err = out.decode('utf-8'), err.decode('utf-8')
+        out, err = out.decode("utf-8"), err.decode("utf-8")
 
     # Give the output back to the caller
     outputq.put((out, err, proc.returncode))
 
 
 def _retrieve_output(thread, timeout, queue, thread_error):
-    """Fetch output from binary subprocess queues
-    """
+    """Fetch output from binary subprocess queues"""
     # Try to join the thread on failure abort
     thread.join(timeout)
-    if thread.isAlive():
+    if thread.is_alive():
         # Join should have killed the thread. This is unexpected
         raise TimeoutWaitingFor(thread_error + ". Unexpected error")
 
@@ -178,16 +169,14 @@ def _get_output(arguments, timeout=None):
 
     # Process crashed or timed out for some reason
     if pid is None:
-        return _retrieve_output(t, output_timeout, outputq,
-                                "Program to start")
+        return _retrieve_output(t, output_timeout, outputq, "Program to start")
 
     # Wait for process to finish (normal execution)
     state = wait_process(pid, timeout)
 
     if state:
         # Process finished
-        return _retrieve_output(t, output_timeout, outputq,
-                                "Program thread to join")
+        return _retrieve_output(t, output_timeout, outputq, "Program thread to join")
 
     # If we reach this point we assume the process got stuck or timed out
     for sig in (signal.SIGABRT, signal.SIGTERM, signal.SIGKILL):
@@ -204,16 +193,15 @@ def _get_output(arguments, timeout=None):
 
         if state:
             # Process finished
-            return _retrieve_output(t, output_timeout, outputq,
-                                    "Program to die")
+            return _retrieve_output(t, output_timeout, outputq, "Program to die")
 
-    # This should never happen but in case something goes really bad
+    # This should never happen, but in case something goes really awry...
     raise OSError("Program stopped responding and couldn't be killed")
 
 
 def run_cmd_wait(cmd, input=None, stdout=PIPE, stderr=PIPE,
                  merge_streams=False, env=os.environ, timeout=None):
-    "Run a subprocess and wait for it to finish"
+    """Run a subprocess and wait for it to finish"""
 
     if input is None:
         stdin = None
@@ -231,7 +219,7 @@ def run_cmd_wait(cmd, input=None, stdout=PIPE, stderr=PIPE,
             "stdin": stdin,
             "stdout": stdout,
             "stderr": stderr,
-            "bufsize": 1,
+            "bufsize": -1,
             "close_fds": ON_POSIX,
             "env": env,
         },
@@ -252,7 +240,7 @@ def run_cmd_wait(cmd, input=None, stdout=PIPE, stderr=PIPE,
 
 
 def run_cmd_wait_nofail(*args, **kwargs):
-    "Same as run_cmd_wait but silence the exception if it happens"
+    """Same as run_cmd_wait but silence the exception if it happens"""
     try:
         return run_cmd_wait(*args, **kwargs)
     except CommandError as e:
@@ -260,8 +248,7 @@ def run_cmd_wait_nofail(*args, **kwargs):
 
 
 def memoize(obj):
-    """Keep an in-memory cache of function results given it's inputs
-    """
+    """Keep an in-memory cache of function results given its inputs"""
     cache = obj.cache = {}
 
     @functools.wraps(obj)
@@ -343,16 +330,15 @@ except ImportError:
 
 
 def parse_datafile(file):
-    """Parse .data files, treating files as JSON
-    """
+    """Parse .data files, treating files as JSON"""
     data = []
     with open(file) as fh:
         for line in fh:
             line = line.rstrip("\n")
 
             # Turn [] strings into {} to be treated properly as JSON hashes
-            if line.startswith('[') and line.endswith(']'):
-                line = '{' + line[1:-1] + '}'
+            if line.startswith("[") and line.endswith("]"):
+                line = "{" + line[1:-1] + "}"
 
             if line.startswith("{"):
                 data.append(json.loads(line))
@@ -362,9 +348,7 @@ def parse_datafile(file):
 
 
 def mkstemp(data):
-    """
-    Create a temporary file that is removed at process exit
-    """
+    """Create a temporary file that is removed at process exit"""
     def rmtemp(name):
         try:
             os.remove(name)
@@ -382,11 +366,8 @@ def mkstemp(data):
 
 
 def mkstemp_exec(data):
-    """Create a temporary executable file that is removed at process exit
-    """
+    """Create a temporary executable file that is removed at process exit"""
     name = mkstemp(data)
     os.chmod(name, 0o755)
 
     return name
-
-# vim: ai sts=4 et sw=4

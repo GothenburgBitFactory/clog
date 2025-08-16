@@ -1,5 +1,5 @@
-#!/usr/bin/env python2.7
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+
 ###############################################################################
 #
 # Copyright 2006 - 2017, Paul Beckingham, Federico Hernandez.
@@ -35,21 +35,6 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from basetest import Clog, TestCase
 
-# Test methods available:
-#     self.assertEqual(a, b)
-#     self.assertNotEqual(a, b)
-#     self.assertTrue(x)
-#     self.assertFalse(x)
-#     self.assertIs(a, b)
-#     self.assertIsNot(substring, text)
-#     self.assertIsNone(x)
-#     self.assertIsNotNone(x)
-#     self.assertIn(substring, text)
-#     self.assertNotIn(substring, text
-#     self.assertRaises(e)
-#     self.assertRegexpMatches(text, pattern)
-#     self.assertNotRegexpMatches(text, pattern)
-#     self.tap("")
 
 class TestPatternLine(TestCase):
     def setUp(self):
@@ -60,10 +45,10 @@ class TestPatternLine(TestCase):
         """Test matching a pattern and coloring a line"""
         self.t.config('default rule "foo" --> red line')
 
-        code, out, err = self.t("", input='a foo\na bar\na baz\n')
+        code, out, err = self.t("", input='a foo\na bar\na baz\n'.encode())
         self.assertIn('\x1b[31ma foo\x1b[0m\n', out)
-        self.assertRegexpMatches(out, r'\na bar\n')
-        self.assertRegexpMatches(out, r'\na baz\n')
+        self.assertRegex(out, r'\na bar\n')
+        self.assertRegex(out, r'\na baz\n')
 
 class TestPatternMatch(TestCase):
     def setUp(self):
@@ -74,10 +59,10 @@ class TestPatternMatch(TestCase):
         """Test matching a pattern and coloring a match"""
         self.t.config('default rule "foo" --> red match')
 
-        code, out, err = self.t("", input='a foo\na bar\na baz\n')
+        code, out, err = self.t("", input='a foo\na bar\na baz\n'.encode())
         self.assertIn('a \x1b[31mfoo\x1b[0m\n', out)
-        self.assertRegexpMatches(out, r'\na bar\n')
-        self.assertRegexpMatches(out, r'\na baz\n')
+        self.assertRegex(out, r'\na bar\n')
+        self.assertRegex(out, r'\na baz\n')
 
 class TestPatternOverlap(TestCase):
     def setUp(self):
@@ -89,7 +74,7 @@ class TestPatternOverlap(TestCase):
         self.t.config('default rule "abc" --> red match')
         self.t.config('default rule "cd" --> blue match')
 
-        code, out, err = self.t("", input='abcdabcdabcd\n')
+        code, out, err = self.t("", input='abcdabcdabcd\n'.encode())
         self.tap(out)
         self.assertIn('\x1b[31mab\x1b[0m\x1b[34mcd\x1b[0m\x1b[31mab\x1b[0m\x1b[34mcd\x1b[0m\n', out)
 
@@ -98,13 +83,10 @@ class TestPatternOverlap(TestCase):
         self.t.config('default rule "cd" --> blue match')
         self.t.config('default rule "abc" --> red match')
 
-        code, out, err = self.t("", input='abcdabcdabcd\n')
+        code, out, err = self.t("", input='abcdabcdabcd\n'.encode())
         self.tap(out)
         self.assertIn('\x1b[31mabc\x1b[0m\x1b[34md\x1b[0m\x1b[31mabc\x1b[0m\x1b[34md\x1b[0m\n', out)
 
 if __name__ == "__main__":
     from simpletap import TAPTestRunner
     unittest.main(testRunner=TAPTestRunner())
-
-
-

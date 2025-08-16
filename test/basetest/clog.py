@@ -1,19 +1,17 @@
-# -*- coding: utf-8 -*-
-
 import atexit
-import json
 import os
 import shlex
 import shutil
 import tempfile
 import unittest
+
 from .exceptions import CommandError
-from .utils import run_cmd_wait, run_cmd_wait_nofail, which, clog_binary_location, DEFAULT_EXTENSION_PATH
-from .compat import STRING_TYPE
+from .utils import run_cmd_wait_nofail, which, clog_binary_location, DEFAULT_EXTENSION_PATH
 
 
 class Clog(object):
-    """Manage a Clog instance
+    """
+    Manage a Clog instance
 
     A temporary folder is used as data store of clog.
 
@@ -22,7 +20,8 @@ class Clog(object):
     DEFAULT_CLOG = clog_binary_location()
 
     def __init__(self, clog=DEFAULT_CLOG):
-        """Initialize a clog (client).
+        """
+        Initialize a clog (client).
         The program runs in a temporary folder.
 
         :arg clog: Clog binary to use as client (defaults: clog in PATH)
@@ -35,9 +34,9 @@ class Clog(object):
         # Configuration of the isolated environment
         self._original_pwd = os.getcwd()
         self.datadir = tempfile.mkdtemp(prefix="clog_")
-        self.clogrc = os.path.join (self.datadir, 'clogrc')
+        self.clogrc = os.path.join (self.datadir, "clogrc")
 
-        self._command.extend(['-f', self.clogrc])
+        self._command.extend(["-f", self.clogrc])
 
         # Ensure any instance is properly destroyed at session end
         atexit.register(lambda: self.destroy())
@@ -61,7 +60,7 @@ class Clog(object):
         return "{0} running from {1}>".format(txt[:-1], self.datadir)
 
     def __call__(self, *args, **kwargs):
-        "aka t = Clog() ; t() which is now an alias to t.runSuccess()"
+        """aka t = Clog() ; t() which is now an alias to t.runSuccess()"""
         return self.runSuccess(*args, **kwargs)
 
     def reset_env(self):
@@ -71,16 +70,13 @@ class Clog(object):
         self.env = os.environ.copy()
 
     def config(self, line):
-        """Add 'line' to self.clogrc.
-        """
+        """Add 'line' to self.clogrc"""
         with open(self.clogrc, "a") as f:
             f.write(line + "\n")
 
     @property
     def clogrc_content(self):
-        """
-        Returns the contents of the clogrc file.
-        """
+        """Returns the contents of the clogrc file."""
         with open(self.clogrc, "r") as f:
             return f.readlines()
 
@@ -90,20 +86,21 @@ class Clog(object):
         argument. The string is literally the same as if written in the shell.
         """
         # Enable nicer-looking calls by allowing plain strings
-        if isinstance(args, STRING_TYPE):
+        if isinstance(args, str):
             args = shlex.split(args)
 
         return args
 
     def runSuccess(self, args="", input=None, merge_streams=False,
                    timeout=5):
-        """Invoke clog with given arguments and fail if exit code != 0
+        """
+        Invoke clog with given arguments and fail if exit code != 0
 
         Use runError if you want exit_code to be tested automatically and
         *not* fail if program finishes abnormally.
 
         If you wish to pass instructions to clog such as confirmations or other
-        input via stdin, you can do so by providing a input string.
+        input via stdin, you can do so by providing an input string.
         Such as input="y\ny\n".
 
         If merge_streams=True stdout and stderr will be merged into stdout.
@@ -131,13 +128,14 @@ class Clog(object):
         return output
 
     def runError(self, args=(), input=None, merge_streams=False, timeout=5):
-        """Invoke clog with given arguments and fail if exit code == 0
+        """
+        Invoke clog with given arguments and fail if exit code == 0
 
         Use runSuccess if you want exit_code to be tested automatically and
         *fail* if program finishes abnormally.
 
         If you wish to pass instructions to clog such as confirmations or other
-        input via stdin, you can do so by providing a input string.
+        input via stdin, you can do so by providing an input string.
         Such as input="y\ny\n".
 
         If merge_streams=True stdout and stderr will be merged into stdout.
@@ -205,5 +203,3 @@ class Clog(object):
         if faketime is not None:
             # Use advanced time format
             self._command = [cmd, "-f", faketime] + self._command
-
-# vim: ai sts=4 et sw=4

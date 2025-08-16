@@ -16,7 +16,7 @@ set (libshared_SRCS
                     libshared/src/shared.cpp        libshared/src/shared.h
                     libshared/src/unicode.cpp       libshared/src/unicode.h
                     libshared/src/utf8.cpp          libshared/src/utf8.h
-                    libshared/src/wcwidth6.cpp)
+                    libshared/src/wcwidth.h)
 
 add_library (clog      STATIC ${clog_SRCS})
 add_library (libshared STATIC ${libshared_SRCS})

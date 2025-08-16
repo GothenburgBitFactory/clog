@@ -109,13 +109,13 @@ int main (int argc, char** argv)
                   << " built for "
                   << osName ()
                   << "\n"
-                  << "Copyright (C) 2010 - 2017 Göteborg Bit Factory\n"
+                  << "Copyright (C) 2010 - 2017 Gothenburg Bit Factory\n"
                   << "\n"
                   << "Clog may be copied only under the terms of the MIT "
                      "license, which may be found in the source kit.\n"
                   << "\n"
                   << "Documentation for clog can be found using 'man clog' "
-                     "or at http://tasktools.org/projects/clog.html\n"
+                     "or at https://gothenburgbitfactory.org/clog/docs/\n"
                   << "\n";
         return status;
       }

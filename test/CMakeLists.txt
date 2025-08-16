@@ -1,7 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
-if(POLICY CMP0037)
-  cmake_policy(SET CMP0037 OLD)
-endif()
+cmake_minimum_required (VERSION 3.8)
 
 include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_SOURCE_DIR}/src
@@ -24,4 +21,3 @@ endforeach (src_FILE)
 
 configure_file(run_all run_all COPYONLY)
 configure_file(problems problems COPYONLY)
-

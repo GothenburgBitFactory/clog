@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.8)
 message ("-- Configuring man pages")
 set (man_FILES clog.1)
 foreach (man_FILE ${man_FILES})

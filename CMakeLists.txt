@@ -10,7 +10,7 @@ set (PROJECT_VERSION "1.4.0")
 
 set (PACKAGE "${PROJECT_NAME}")
 set (VERSION "${PROJECT_VERSION}")
-set (PACKAGE_BUGREPORT "support@taskwarrior.org")
+set (PACKAGE_BUGREPORT "support@gothenburgbitfactory.org")
 set (PACKAGE_NAME "${PACKAGE}")
 set (PACKAGE_TARNAME "${PACKAGE}")
 set (PACKAGE_VERSION "${VERSION}")
